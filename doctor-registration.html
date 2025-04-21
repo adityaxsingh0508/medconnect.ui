@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Registration - MedConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .registration-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            display: flex;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 2px;
+            width: 100%;
+            background-color: var(--medium-gray);
+            z-index: 1;
+        }
+
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid var(--medium-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: 500;
+        }
+
+        .progress-step.active .step-circle {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        .progress-step.completed .step-circle {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+
+        .progress-step.active .step-label {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section-title {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .upload-box {
+            padding: 20px;
+            border: 2px dashed var(--medium-gray);
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary-color);
+        }
+
+        .upload-icon {
+            font-size: 30px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .note {
+            font-size: 14px;
+            color: var(--dark-gray);
+            margin-top: 5px;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">MedConnect</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="find-doctor.html" class="nav-link">Find a Doctor</a></li>
+                <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About Us</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="signup.html" class="btn btn-primary">Sign Up</a></li>
+            </ul>
+            <div class="mobile-menu-button">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Form -->
+    <div class="container">
+        <div class="registration-container">
+            <h2 class="form-title">Doctor Registration</h2>
+            <p class="form-subtitle">Join our network of healthcare professionals and connect with patients seeking your expertise.</p>
+            
+            <div class="progress-bar">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Personal Info</div>
+                </div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Professional Info</div>
+                </div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Documents</div>
+                </div>
+                <div class="progress-step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Review</div>
+                </div>
+            </div>
+            
+            <form id="doctor-registration-form" action="/submit-doctor-registration" method="POST" enctype="multipart/form-data">
+                <!-- Step 1: Personal Information -->
+                <div class="form-step active" data-step="1">
+                    <div class="form-section">
+                        <h3 class="form-section-title">Personal Information</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first-name" class="form-label">First Name</label>
+                                <input type="text" id="first-name" name="first_name" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="last-name" class="form-label">Last Name</label>
+                                <input type="text" id="last-name" name="last_name" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="birthdate" class="form-label">Date of Birth</label>
+                                <input type="date" id="birthdate" name="birthdate" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select id="gender" name="gender" class="form-input" required>
+                                    <option value="">Select Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                    <option value="prefer-not-to-say">Prefer not to say</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" id="address" name="address" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" id="city" name="city" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="state" class="form-label">State/Province</label>
+                                <input type="text" id="state" name="state" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="zip" class="form-label">ZIP/Postal Code</label>
+                                <input type="text" id="zip" name="zip" class="form-input" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-outline back-btn" style="visibility: hidden;">Back</button>
+                        <button type="button" class="btn btn-primary next-btn">Next</button>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Professional Information -->
+                <div class="form-step" data-step="2">
+                    <div class="form-section">
+                        <h3 class="form-section-title">Professional Information</h3>
+                        
+                        <div class="form-group">
+                            <label for="specialty" class="form-label">Medical Specialty</label>
+                            <select id="specialty" name="specialty" class="form-input" required>
+                                <option value="">Select Specialty</option>
+                                <option value="cardiology">Cardiology</option>
+                                <option value="dermatology">Dermatology</option>
+                                <option value="pediatrics">Pediatrics</option>
+                                <option value="neurology">Neurology</option>
+                                <option value="orthopedics">Orthopedics</option>
+                                <option value="psychiatry">Psychiatry</option>
+                                <option value="oncology">Oncology</option>
+                                <option value="gynecology">Gynecology</option>
+                                <option value="urology">Urology</option>
+                                <option value="ophthalmology">Ophthalmology</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="clinic-name" class="form-label">Clinic/Hospital Name</label>
+                            <input type="text" id="clinic-name" name="clinic_name" class="form-input" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="license-number" class="form-label">License Number</label>
+                                <input type="text" id="license-number" name="license_number" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="license-state" class="form-label">License State/Province</label>
+                                <input type="text" id="license-state" name="license_state" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="years-experience" class="form-label">Years of Experience</label>
+                                <input type="number" id="years-experience" name="years_experience" class="form-input" required min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="board-certification" class="form-label">Board Certification</label>
+                                <input type="text" id="board-certification" name="board_certification" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="bio" class="form-label">Professional Bio</label>
+                            <textarea id="bio" name="bio" class="form-input" rows="5" required></textarea>
+                            <p class="note">Briefly describe your expertise, experience, and approach to patient care (max 500 characters).</p>
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-outline back-btn">Back</button>
+                        <button type="button" class="btn btn-primary next-btn">Next</button>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Documents Upload -->
+                <div class="form-step" data-step="3">
+                    <div class="form-section">
+                        <h3 class="form-section-title">Document Upload</h3>
+                        
+                        <div class="form-group">
+                            <label for="license-upload" class="form-label">Medical License</label>
+                            <div class="upload-box">
+                                <div class="upload-icon"><i class="fas fa-file-medical"></i></div>
+                                <input type="file" id="license-upload" name="license_upload" accept=".jpg, .jpeg, .png, .pdf" required>
+                                <p class="note">Upload a copy of your valid medical license. Only PDF, JPG, and PNG formats are accepted.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="certification-upload" class="form-label">Board Certification (if applicable)</label>
+                            <div class="upload-box">
+                                <div class="upload-icon"><i class="fas fa-certificate"></i></div>
+                                <input type="file" id="certification-upload" name="certification_upload" accept=".jpg, .jpeg, .png, .pdf">
+                                <p class="note">Upload a copy of your board certification. Only PDF, JPG, and PNG formats are accepted.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="photo-upload" class="form-label">Professional Photo</label>
+                            <div class="upload-box">
+                                <div class="upload-icon"><i class="fas fa-user-md"></i></div>
+                                <input type="file" id="photo-upload" name="photo_upload" accept=".jpg, .jpeg, .png" required>
+                                <p class="note">Upload a professional headshot. This will be displayed on your public profile. Only JPG and PNG formats are accepted.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="additional-upload" class="form-label">Additional Documents (optional)</label>
+                            <div class="upload-box">
+                                <div class="upload-icon"><i class="fas fa-file-alt"></i></div>
+                                <input type="file" id="additional-upload" name="additional_upload" accept=".jpg, .jpeg, .png, .pdf" multiple>
+                                <p class="note">Upload any additional documents such as diplomas, specialized training certificates, etc.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-outline back-btn">Back</button>
+                        <button type="button" class="btn btn-primary next-btn">Next</button>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Review and Submit -->
+                <div class="form-step" data-step="4">
+                    <div class="form-section">
+                        <h3 class="form-section-title">Review Your Information</h3>
+                        
+                        <p>Please review all the information you've provided before submitting your registration.</p>
+                        
+                        <div id="review-summary" class="review-summary">
+                            <!-- This will be populated via JavaScript with user's input -->
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="terms-checkbox">
+                                <input type="checkbox" id="terms-agreement" name="terms_agreement" required>
+                                <label for="terms-agreement">I confirm that all the information provided is accurate and complete. I agree to the <a href="terms-of-service.html">Terms of Service</a> and <a href="privacy-policy.html">Privacy Policy</a>.</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="button" class="btn btn-outline back-btn">Back</button>
+                        <button type="submit" class="btn btn-primary">Submit Registration</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3 class="footer-title">MedConnect</h3>
+                    <p>Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="find-doctor.html">Find a Doctor</a></li>
+                        <li><a href="services.html">Our Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">For Patients</h3>
+                    <ul class="footer-links">
+                        <li><a href="appointment.html">Book Appointment</a></li>
+                        <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
+                        <li><a href="medical-records.html">Medical Records</a></li>
+                        <li><a href="prescriptions.html">Prescriptions</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">For Doctors</h3>
+                    <ul class="footer-links">
+                        <li><a href="doctor-registration.html">Join as Doctor</a></li>
+                        <li><a href="doctor-dashboard.html">Doctor Dashboard</a></li>
+                        <li><a href="manage-appointments.html">Manage Appointments</a></li>
+                        <li><a href="patient-management.html">Patient Management</a></li>
+                        <li><a href="doctor-resources.html">Resources</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MedConnect. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-service.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Registration form multi-step functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('doctor-registration-form');
+            const steps = form.querySelectorAll('.form-step');
+            const progressSteps = document.querySelectorAll('.progress-step');
+            const nextButtons = form.querySelectorAll('.next-btn');
+            const backButtons = form.querySelectorAll('.back-btn');
+            
+            // Next button functionality
+            nextButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const currentStep = button.closest('.form-step');
+                    const currentStepNum = parseInt(currentStep.getAttribute('data-step'));
+                    
+                    // Validate current step
+                    if (validateStep(currentStep)) {
+                        // Find next step
+                        const nextStep = form.querySelector(`.form-step[data-step="${currentStepNum + 1}"]`);
+                        
+                        // Update active step
+                        currentStep.classList.remove('active');
+                        nextStep.classList.add('active');
+                        
+                        // Update progress bar
+                        progressSteps.forEach(step => {
+                            const stepNum = parseInt(step.getAttribute('data-step'));
+                            
+                            if (stepNum === currentStepNum) {
+                                step.classList.remove('active');
+                                step.classList.add('completed');
+                            } else if (stepNum === currentStepNum + 1) {
+                                step.classList.add('active');
+                            }
+                        });
+                        
+                        // If this is step 3 going to step 4, populate the review summary
+                        if (currentStepNum === 3) {
+                            populateReviewSummary();
+                        }
+                        
+                        // Scroll to top
+                        window.scrollTo(0, 0);
+                    }
+                });
+            });
+            
+            // Back button functionality
+            backButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const currentStep = button.closest('.form-step');
+                    const currentStepNum = parseInt(currentStep.getAttribute('data-step'));
+                    
+                    // Find previous step
+                    const prevStep = form.querySelector(`.form-step[data-step="${currentStepNum - 1}"]`);
+                    
+                    // Update active step
+                    currentStep.classList.remove('active');
+                    prevStep.classList.add('active');
+                    
+                    // Update progress bar
+                    progressSteps.forEach(step => {
+                        const stepNum = parseInt(step.getAttribute('data-step'));
+                        
+                        if (stepNum === currentStepNum) {
+                            step.classList.remove('active');
+                        } else if (stepNum === currentStepNum - 1) {
+                            step.classList.add('active');
+                            step.classList.remove('completed');
+                        }
+                    });
+                    
+                    // Scroll to top
+                    window.scrollTo(0, 0);
+                });
+            });
+            
+            // Form submission
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Validate final step
+                const finalStep = form.querySelector('.form-step[data-step="4"]');
+                if (validateStep(finalStep)) {
+                    // In a real application, this would submit the form
+                    alert('Registration submitted successfully! We will review your application and contact you soon.');
+                    
+                    // For demo purposes, redirect to a thank you page
+                    window.location.href = 'registration-success.html';
+                }
+            });
+            
+            // Validate step
+            function validateStep(step) {
+                const stepNum = parseInt(step.getAttribute('data-step'));
+                const inputs = step.querySelectorAll('input, select, textarea');
+                let isValid = true;
+                
+                inputs.forEach(input => {
+                    // Skip validation for optional fields
+                    if (!input.hasAttribute('required') || input.type === 'checkbox') {
+                        return;
+                    }
+                    
+                    // Clear previous error
+                    const errorElement = input.parentElement.querySelector('.error-message');
+                    if (errorElement) {
+                        errorElement.remove();
+                    }
+                    
+                    // Validate field
+                    if (!input.value.trim()) {
+                        const error = document.createElement('div');
+                        error.className = 'error-message';
+                        error.textContent = 'This field is required';
+                        input.parentElement.appendChild(error);
+                        isValid = false;
+                    }
+                });
+                
+                // For step 4, ensure terms agreement is checked
+                if (stepNum === 4) {
+                    const termsCheckbox = step.querySelector('#terms-agreement');
+                    if (!termsCheckbox.checked) {
+                        const error = document.createElement('div');
+                        error.className = 'error-message';
+                        error.textContent = 'You must agree to the terms to continue';
+                        termsCheckbox.parentElement.appendChild(error);
+                        isValid = false;
+                    }
+                }
+                
+                return isValid;
+            }
+            
+            // Populate review summary
+            function populateReviewSummary() {
+                const reviewSummary = document.getElementById('review-summary');
+                reviewSummary.innerHTML = '';
+                
+                // Create sections for the review
+                const sections = [
+                    { title: 'Personal Information', fields: ['first_name', 'last_name', 'email', 'phone', 'birthdate', 'gender', 'address', 'city', 'state', 'zip'] },
+                    { title: 'Professional Information', fields: ['specialty', 'clinic_name', 'license_number', 'license_state', 'years_experience', 'board_certification', 'bio'] },
+                    { title: 'Uploaded Documents', fields: ['license_upload', 'certification_upload', 'photo_upload', 'additional_upload'] }
+                ];
+                
+                sections.forEach(section => {
+                    const sectionDiv = document.createElement('div');
+                    sectionDiv.className = 'review-section';
+                    
+                    const sectionTitle = document.createElement('h4');
+                    sectionTitle.textContent = section.title;
+                    sectionDiv.appendChild(sectionTitle);
+                    
+                    const fieldsList = document.createElement('dl');
+                    fieldsList.className = 'review-fields';
+                    
+                    section.fields.forEach(field => {
+                        const input = form.querySelector(`[name="${field}"]`);
+                        if (!input) return;
+                        
+                        const dt = document.createElement('dt');
+                        dt.textContent = input.previousElementSibling.textContent.replace(':', '');
+                        
+                        const dd = document.createElement('dd');
+                        
+                        if (input.type === 'file') {
+                            dd.textContent = input.files.length > 0 ? `${input.files.length} file(s) selected` : 'No file selected';
+                        } else if (input.tagName === 'SELECT') {
+                            dd.textContent = input.options[input.selectedIndex].text;
+                        } else {
+                            dd.textContent = input.value || 'Not provided';
+                        }
+                        
+                        fieldsList.appendChild(dt);
+                        fieldsList.appendChild(dd);
+                    });
+                    
+                    sectionDiv.appendChild(fieldsList);
+                    reviewSummary.appendChild(sectionDiv);
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

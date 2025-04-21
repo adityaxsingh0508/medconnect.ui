@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - MedConnect</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .signup-container {
+            max-width: 700px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .signup-options {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .signup-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid var(--medium-gray);
+        }
+
+        .signup-tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .social-signup {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .social-btn i {
+            margin-right: 10px;
+        }
+
+        .google-btn {
+            background-color: #fff;
+            color: #757575;
+            border: 1px solid #ddd;
+        }
+
+        .google-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .facebook-btn {
+            background-color: #1877f2;
+            color: white;
+        }
+
+        .facebook-btn:hover {
+            background-color: #166fe5;
+        }
+
+        .separator {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .separator::before,
+        .separator::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .separator span {
+            padding: 0 10px;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .password-requirements {
+            font-size: 12px;
+            color: var(--dark-gray);
+            margin-top: 5px;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin: 3px 0;
+        }
+
+        .requirement i {
+            margin-right: 5px;
+            font-size: 10px;
+        }
+
+        .requirement.met {
+            color: var(--success-color);
+        }
+
+        .requirement.unmet {
+            color: var(--dark-gray);
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin: 20px 0;
+        }
+
+        .terms-checkbox input {
+            margin-top: 5px;
+            margin-right: 10px;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .login-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">MedConnect</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="find-doctor.html" class="nav-link">Find a Doctor</a></li>
+                <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About Us</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="signup.html" class="btn btn-primary active">Sign Up</a></li>
+            </ul>
+            <div class="mobile-menu-button">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Signup Form -->
+    <div class="container">
+        <div class="signup-container">
+            <h2 class="form-title">Create Your MedConnect Account</h2>
+            
+            <div class="signup-options">
+                <div class="signup-tab active" data-target="patient-signup">Patient</div>
+                <div class="signup-tab" data-target="doctor-signup">Doctor</div>
+            </div>
+            
+            <div class="social-signup">
+                <button class="social-btn google-btn">
+                    <i class="fab fa-google"></i> Sign up with Google
+                </button>
+                <button class="social-btn facebook-btn">
+                    <i class="fab fa-facebook-f"></i> Sign up with Facebook
+                </button>
+            </div>
+            
+            <div class="separator">
+                <span>OR</span>
+            </div>
+            
+            <!-- Patient Signup Form -->
+            <form id="patient-signup" class="tab-content active">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name" class="form-label">First Name</label>
+                        <input type="text" id="first-name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name" class="form-label">Last Name</label>
+                        <input type="text" id="last-name" class="form-input" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-input" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" class="form-input" required>
+                        <div class="password-requirements">
+                            <div class="requirement" id="length-req">
+                                <i class="fas fa-circle"></i> At least 8 characters
+                            </div>
+                            <div class="requirement" id="uppercase-req">
+                                <i class="fas fa-circle"></i> At least one uppercase letter
+                            </div>
+                            <div class="requirement" id="number-req">
+                                <i class="fas fa-circle"></i> At least one number
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password" class="form-label">Confirm Password</label>
+                        <input type="password" id="confirm-password" class="form-input" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="birthdate" class="form-label">Date of Birth</label>
+                        <input type="date" id="birthdate" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select id="gender" class="form-input" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                            <option value="prefer-not-to-say">Prefer not to say</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" id="phone" class="form-input" required>
+                </div>
+                
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">I agree to the <a href="terms-of-service.html">Terms of Service</a> and <a href="privacy-policy.html">Privacy Policy</a></label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
+            
+            <!-- Doctor Signup Form -->
+            <form id="doctor-signup" class="tab-content" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="doctor-first-name" class="form-label">First Name</label>
+                        <input type="text" id="doctor-first-name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-last-name" class="form-label">Last Name</label>
+                        <input type="text" id="doctor-last-name" class="form-input" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="doctor-email" class="form-label">Email</label>
+                    <input type="email" id="doctor-email" class="form-input" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="doctor-password" class="form-label">Password</label>
+                        <input type="password" id="doctor-password" class="form-input" required>
+                        <div class="password-requirements">
+                            <div class="requirement" id="doctor-length-req">
+                                <i class="fas fa-circle"></i> At least 8 characters
+                            </div>
+                            <div class="requirement" id="doctor-uppercase-req">
+                                <i class="fas fa-circle"></i> At least one uppercase letter
+                            </div>
+                            <div class="requirement" id="doctor-number-req">
+                                <i class="fas fa-circle"></i> At least one number
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="doctor-confirm-password" class="form-label">Confirm Password</label>
+                        <input type="password" id="doctor-confirm-password" class="form-input" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="specialty" class="form-label">Medical Specialty</label>
+                        <select id="specialty" class="form-input" required>
+                            <option value="">Select Specialty</option>
+                            <option value="cardiology">Cardiology</option>
+                            <option value="dermatology">Dermatology</option>
+                            <option value="pediatrics">Pediatrics</option>
+                            <option value="neurology">Neurology</option>
+                            <option value="orthopedics">Orthopedics</option>
+                            <option value="psychiatry">Psychiatry</option>
+                            <option value="oncology">Oncology</option>
+                            <option value="gynecology">Gynecology</option>
+                            <option value="urology">Urology</option>
+                            <option value="ophthalmology">Ophthalmology</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="license-number" class="form-label">License Number</label>
+                        <input type="text" id="license-number" class="form-input" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="doctor-phone" class="form-label">Phone Number</label>
+                    <input type="tel" id="doctor-phone" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="hospital-clinic" class="form-label">Hospital/Clinic (if applicable)</label>
+                    <input type="text" id="hospital-clinic" class="form-input">
+                </div>
+                
+                <div class="form-group">
+                    <p class="form-label">Note: You will need to complete your profile and upload your credentials after registration.</p>
+                </div>
+                
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="doctor-terms" required>
+                    <label for="doctor-terms">I agree to the <a href="terms-of-service.html">Terms of Service</a> and <a href="privacy-policy.html">Privacy Policy</a></label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
+            
+            <div class="login-link">
+                <p>Already have an account? <a href="login.html">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3 class="footer-title">MedConnect</h3>
+                    <p>Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="find-doctor.html">Find a Doctor</a></li>
+                        <li><a href="services.html">Our Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">For Patients</h3>
+                    <ul class="footer-links">
+                        <li><a href="appointment.html">Book Appointment</a></li>
+                        <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
+                        <li><a href="medical-records.html">Medical Records</a></li>
+                        <li><a href="prescriptions.html">Prescriptions</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">For Doctors</h3>
+                    <ul class="footer-links">
+                        <li><a href="doctor-registration.html">Join as Doctor</a></li>
+                        <li><a href="doctor-dashboard.html">Doctor Dashboard</a></li>
+                        <li><a href="manage-appointments.html">Manage Appointments</a></li>
+                        <li><a href="patient-management.html">Patient Management</a></li>
+                        <li><a href="doctor-resources.html">Resources</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MedConnect. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-service.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Signup tab functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const signupTabs = document.querySelectorAll('.signup-tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            signupTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.getAttribute('data-target');
+                    
+                    // Update active tab
+                    signupTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Show selected tab content
+                    tabContents.forEach(content => {
+                        content.style.display = 'none';
+                        if (content.id === target) {
+                            content.style.display = 'block';
+                        }
+                    });
+                });
+            });
+            
+            // Password validation for patient
+            const passwordInput = document.getElementById('password');
+            const lengthReq = document.getElementById('length-req');
+            const uppercaseReq = document.getElementById('uppercase-req');
+            const numberReq = document.getElementById('number-req');
+            
+            if (passwordInput) {
+                passwordInput.addEventListener('input', () => {
+                    const value = passwordInput.value;
+                    
+                    // Check length
+                    if (value.length >= 8) {
+                        lengthReq.classList.add('met');
+                        lengthReq.classList.remove('unmet');
+                    } else {
+                        lengthReq.classList.add('unmet');
+                        lengthReq.classList.remove('met');
+                    }
+                    
+                    // Check uppercase
+                    if (/[A-Z]/.test(value)) {
+                        uppercaseReq.classList.add('met');
+                        uppercaseReq.classList.remove('unmet');
+                    } else {
+                        uppercaseReq.classList.add('unmet');
+                        uppercaseReq.classList.remove('met');
+                    }
+                    
+                    // Check number
+                    if (/[0-9]/.test(value)) {
+                        numberReq.classList.add('met');
+                        numberReq.classList.remove('unmet');
+                    } else {
+                        numberReq.classList.add('unmet');
+                        numberReq.classList.remove('met');
+                    }
+                });
+            }
+            
+            // Password validation for doctor
+            const doctorPasswordInput = document.getElementById('doctor-password');
+            const doctorLengthReq = document.getElementById('doctor-length-req');
+            const doctorUppercaseReq = document.getElementById('doctor-uppercase-req');
+            const doctorNumberReq = document.getElementById('doctor-number-req');
+            
+            if (doctorPasswordInput) {
+                doctorPasswordInput.addEventListener('input', () => {
+                    const value = doctorPasswordInput.value;
+                    
+                    // Check length
+                    if (value.length >= 8) {
+                        doctorLengthReq.classList.add('met');
+                        doctorLengthReq.classList.remove('unmet');
+                    } else {
+                        doctorLengthReq.classList.add('unmet');
+                        doctorLengthReq.classList.remove('met');
+                    }
+                    
+                    // Check uppercase
+                    if (/[A-Z]/.test(value)) {
+                        doctorUppercaseReq.classList.add('met');
+                        doctorUppercaseReq.classList.remove('unmet');
+                    } else {
+                        doctorUppercaseReq.classList.add('unmet');
+                        doctorUppercaseReq.classList.remove('met');
+                    }
+                    
+                    // Check number
+                    if (/[0-9]/.test(value)) {
+                        doctorNumberReq.classList.add('met');
+                        doctorNumberReq.classList.remove('unmet');
+                    } else {
+                        doctorNumberReq.classList.add('unmet');
+                        doctorNumberReq.classList.remove('met');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

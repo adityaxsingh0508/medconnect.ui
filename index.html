@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConnect - Your Health, Our Priority</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">MedConnect</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="find-doctor.html" class="nav-link">Find a Doctor</a></li>
+                <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About Us</a></li>
+                <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                <li class="nav-item"><a href="login.html" class="nav-link">Login</a></li>
+                <li class="nav-item"><a href="signup.html" class="btn btn-primary">Sign Up</a></li>
+            </ul>
+            <div class="mobile-menu-button">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">Your Health, Our Priority</h1>
+            <p class="hero-subtitle">Connect with the best healthcare professionals and manage your medical needs in one place.</p>
+            <div class="hero-buttons">
+                <a href="find-doctor.html" class="btn btn-primary">Find a Doctor</a>
+                <a href="appointment.html" class="btn btn-outline">Book Appointment</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose MedConnect?</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3 class="feature-title">Expert Doctors</h3>
+                    <p>Access to a network of qualified and experienced medical professionals across various specialties.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3 class="feature-title">Easy Appointments</h3>
+                    <p>Book, reschedule, or cancel appointments with just a few clicks, anytime and anywhere.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <h3 class="feature-title">Medical Records</h3>
+                    <p>Securely store and access your medical history, prescriptions, and test results online.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="service-grid">
+                <div class="card">
+                    <img src="images/service1.jpg" alt="Online Consultations" class="card-img">
+                    <div class="card-body">
+                        <h3 class="card-title">Online Consultations</h3>
+                        <p class="card-text">Virtual appointments with healthcare professionals from the comfort of your home.</p>
+                        <a href="services.html#online-consultations" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="images/service2.jpg" alt="Specialist Referrals" class="card-img">
+                    <div class="card-body">
+                        <h3 class="card-title">Specialist Referrals</h3>
+                        <p class="card-text">Get connected with specialized medical professionals based on your specific needs.</p>
+                        <a href="services.html#specialist-referrals" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="images/service3.jpg" alt="Medication Management" class="card-img">
+                    <div class="card-body">
+                        <h3 class="card-title">Medication Management</h3>
+                        <p class="card-text">Track prescriptions, get reminders, and order refills seamlessly through our platform.</p>
+                        <a href="services.html#medication-management" class="btn btn-outline">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Doctor Search Quick Access -->
+    <section class="quick-search">
+        <div class="container">
+            <h2 class="section-title">Find a Doctor Now</h2>
+            <form id="doctor-search-form" class="search-form">
+                <div class="search-fields">
+                    <div class="form-group">
+                        <label for="search-specialty">Specialty</label>
+                        <select id="search-specialty" class="form-input">
+                            <option value="">All Specialties</option>
+                            <option value="cardiology">Cardiology</option>
+                            <option value="dermatology">Dermatology</option>
+                            <option value="pediatrics">Pediatrics</option>
+                            <option value="neurology">Neurology</option>
+                            <option value="orthopedics">Orthopedics</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="search-location">Location</label>
+                        <input type="text" id="search-location" class="form-input" placeholder="City or ZIP code">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Our Patients Say</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-item">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                        <p>MedConnect made finding a specialist so easy! I booked an appointment and received excellent care. Highly recommended!</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/patient1.jpg" alt="Sarah J." class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4>Sarah J.</h4>
+                            <p>Patient</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                        <p>The online consultation feature saved me so much time. I got the medical advice I needed without leaving my home.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/patient2.jpg" alt="Mark T." class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4>Mark T.</h4>
+                            <p>Patient</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                        <p>As a doctor, this platform helps me manage my schedule efficiently and connect with patients who truly need my expertise.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <img src="images/doctor1.jpg" alt="Dr. James W." class="testimonial-avatar">
+                        <div class="testimonial-info">
+                            <h4>Dr. James W.</h4>
+                            <p>Cardiologist</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to take control of your health?</h2>
+            <p>Join thousands of patients who have simplified their healthcare journey with MedConnect.</p>
+            <div class="cta-buttons">
+                <a href="signup.html" class="btn btn-primary">Sign Up Now</a>
+                <a href="about.html" class="btn btn-outline">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3 class="footer-title">MedConnect</h3>
+                    <p>Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="find-doctor.html">Find a Doctor</a></li>
+                        <li><a href="services.html">Our Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">For Patients</h3>
+                    <ul class="footer-links">
+                        <li><a href="appointment.html">Book Appointment</a></li>
+                        <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
+                        <li><a href="medical-records.html">Medical Records</a></li>
+                        <li><a href="prescriptions.html">Prescriptions</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">For Doctors</h3>
+                    <ul class="footer-links">
+                        <li><a href="doctor-registration.html">Join as Doctor</a></li>
+                        <li><a href="doctor-dashboard.html">Doctor Dashboard</a></li>
+                        <li><a href="manage-appointments.html">Manage Appointments</a></li>
+                        <li><a href="patient-management.html">Patient Management</a></li>
+                        <li><a href="doctor-resources.html">Resources</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MedConnect. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-of-service.html">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
