@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find a Doctor | MedConnect</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .search-container {
+            background-color: #f5f8ff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .search-form select, 
+        .search-form input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .search-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .filter-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .filter-checkbox {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+        
+        .doctor-card {
+            display: flex;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .doctor-image {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .doctor-info {
+            padding: 20px;
+            flex: 1;
+        }
+        
+        .doctor-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .doctor-specialty {
+            color: #007bff;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .doctor-location {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .doctor-rating {
+            color: #f8cb00;
+            margin-bottom: 10px;
+        }
+        
+        .doctor-availability {
+            font-size: 14px;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+        
+        .doctor-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .book-btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .profile-btn {
+            background-color: transparent;
+            color: #007bff;
+            border: 1px solid #007bff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 5px;
+        }
+        
+        .pagination button {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .pagination button.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        
+        @media (max-width: 768px) {
+            .doctor-card {
+                flex-direction: column;
+            }
+            
+            .doctor-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>MedConnect</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="find-doctor.html" class="active">Find a Doctor</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="signup.html" class="signup-btn">Sign Up</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2 class="section-title">Find a Doctor</h2>
+            <p class="section-description">Search for specialized doctors in your area and book appointments online.</p>
+            
+            <div class="search-container">
+                <form class="search-form">
+                    <select name="specialty" id="specialty">
+                        <option value="">Select Specialty</option>
+                        <option value="cardiology">Cardiology</option>
+                        <option value="dermatology">Dermatology</option>
+                        <option value="neurology">Neurology</option>
+                        <option value="orthopedics">Orthopedics</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="psychiatry">Psychiatry</option>
+                        <option value="oncology">Oncology</option>
+                        <option value="gynecology">Gynecology</option>
+                    </select>
+                    <input type="text" id="location" placeholder="City or Zip Code">
+                    <input type="date" id="date" placeholder="Appointment Date">
+                    <button type="submit" class="search-btn">Search</button>
+                </form>
+                
+                <div class="filter-options">
+                    <span class="filter-label">Filter by:</span>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" id="available-today">
+                        Available Today
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" id="video-consultation">
+                        Video Consultation
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" id="in-network">
+                        In-Network
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" id="high-rated">
+                        4+ Stars
+                    </label>
+                </div>
+            </div>
+            
+            <div class="doctors-list">
+                <!-- Doctor Card 1 -->
+                <div class="doctor-card">
+                    <img src="/api/placeholder/150/150" alt="Dr. Sarah Johnson" class="doctor-image">
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">Dr. Sarah Johnson</h3>
+                        <p class="doctor-specialty">Cardiologist</p>
+                        <p class="doctor-location"><i class="fas fa-map-marker-alt"></i> Memorial Medical Center, New York</p>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(128 reviews)</span>
+                        </div>
+                        <p class="doctor-availability"><i class="fas fa-calendar-check"></i> Available Today</p>
+                        <div class="doctor-actions">
+                            <button class="book-btn">Book Appointment</button>
+                            <button class="profile-btn">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Doctor Card 2 -->
+                <div class="doctor-card">
+                    <img src="/api/placeholder/150/150" alt="Dr. Michael Chen" class="doctor-image">
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">Dr. Michael Chen</h3>
+                        <p class="doctor-specialty">Neurologist</p>
+                        <p class="doctor-location"><i class="fas fa-map-marker-alt"></i> City Neurology Center, New York</p>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(95 reviews)</span>
+                        </div>
+                        <p class="doctor-availability"><i class="fas fa-calendar-check"></i> Next Available: Tomorrow</p>
+                        <div class="doctor-actions">
+                            <button class="book-btn">Book Appointment</button>
+                            <button class="profile-btn">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Doctor Card 3 -->
+                <div class="doctor-card">
+                    <img src="/api/placeholder/150/150" alt="Dr. Emily Rodriguez" class="doctor-image">
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">Dr. Emily Rodriguez</h3>
+                        <p class="doctor-specialty">Dermatologist</p>
+                        <p class="doctor-location"><i class="fas fa-map-marker-alt"></i> ClearSkin Dermatology, New York</p>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(78 reviews)</span>
+                        </div>
+                        <p class="doctor-availability"><i class="fas fa-video"></i> Available for Video Consultation</p>
+                        <div class="doctor-actions">
+                            <button class="book-btn">Book Appointment</button>
+                            <button class="profile-btn">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Doctor Card 4 -->
+                <div class="doctor-card">
+                    <img src="/api/placeholder/150/150" alt="Dr. James Wilson" class="doctor-image">
+                    <div class="doctor-info">
+                        <h3 class="doctor-name">Dr. James Wilson</h3>
+                        <p class="doctor-specialty">Orthopedic Surgeon</p>
+                        <p class="doctor-location"><i class="fas fa-map-marker-alt"></i> Orthopedic Specialists, New York</p>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                            <span>(64 reviews)</span>
+                        </div>
+                        <p class="doctor-availability"><i class="fas fa-calendar-check"></i> Available Today</p>
+                        <div class="doctor-actions">
+                            <button class="book-btn">Book Appointment</button>
+                            <button class="profile-btn">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="pagination">
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button>5</button>
+                <button><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>MedConnect</h3>
+                <p>Connecting patients with the best healthcare professionals.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="find-doctor.html">Find a Doctor</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Medical Plaza, New York, NY</p>
+                <p><i class="fas fa-phone"></i> (123) 456-7890</p>
+                <p><i class="fas fa-envelope"></i> info@medconnect.com</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 MedConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Find doctor specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Search form submission
+            const searchForm = document.querySelector('.search-form');
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const specialty = document.getElementById('specialty').value;
+                const location = document.getElementById('location').value;
+                const date = document.getElementById('date').value;
+                
+                // You would typically send this data to your server or API
+                console.log('Searching for:', {specialty, location, date});
+                
+                // For demo purposes, we'll just display an alert
+                alert(`Searching for ${specialty || 'Any'} doctors ${location ? 'in ' + location : ''} ${date ? 'on ' + date : ''}`);
+                
+                // In a real application, you would fetch results from your API
+                // and update the doctors-list element with the results
+            });
+            
+            // Filter checkboxes
+            const filterCheckboxes = document.querySelectorAll('.filter-checkbox input');
+            filterCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    // Apply filters based on checkbox states
+                    console.log(`Filter ${this.id} is ${this.checked ? 'checked' : 'unchecked'}`);
+                    
+                    // In a real application, you would update the results based on the filters
+                });
+            });
+            
+            // Book appointment buttons
+            const bookButtons = document.querySelectorAll('.book-btn');
+            bookButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Get doctor name from the closest parent doctor-card
+                    const doctorCard = this.closest('.doctor-card');
+                    const doctorName = doctorCard.querySelector('.doctor-name').textContent;
+                    
+                    // Redirect to a booking page or show a modal
+                    alert(`Redirecting to booking page for ${doctorName}`);
+                    // window.location.href = 'booking.html?doctor=' + encodeURIComponent(doctorName);
+                });
+            });
+            
+            // View profile buttons
+            const profileButtons = document.querySelectorAll('.profile-btn');
+            profileButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Get doctor name from the closest parent doctor-card
+                    const doctorCard = this.closest('.doctor-card');
+                    const doctorName = doctorCard.querySelector('.doctor-name').textContent;
+                    
+                    // Redirect to doctor profile page
+                    alert(`Redirecting to profile page for ${doctorName}`);
+                    // window.location.href = 'doctor-profile.html?name=' + encodeURIComponent(doctorName);
+                });
+            });
+            
+            // Pagination
+            const paginationButtons = document.querySelectorAll('.pagination button');
+            paginationButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    paginationButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // In a real application, you would load the appropriate page of results
+                    if (this.textContent !== '') {
+                        console.log(`Loading page ${this.textContent}`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
