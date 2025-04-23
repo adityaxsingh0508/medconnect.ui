@@ -3,10 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find a Doctor | MedConnect</title>
+    <title>Find a Doctor | MedConnect - Your Health, Our Priority</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Additional styling for find-doctor page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .section-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
         .search-container {
             background-color: #f5f8ff;
             padding: 30px;
@@ -32,17 +61,18 @@
         }
         
         .search-btn {
-            background-color: #007bff;
+            background-color: #1976d2;
             color: white;
             border: none;
             padding: 12px 25px;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            font-weight: bold;
         }
         
         .search-btn:hover {
-            background-color: #0056b3;
+            background-color: #1565c0;
         }
         
         .filter-options {
@@ -96,7 +126,7 @@
         }
         
         .doctor-specialty {
-            color: #007bff;
+            color: #1976d2;
             font-weight: 500;
             margin-bottom: 10px;
         }
@@ -123,21 +153,31 @@
         }
         
         .book-btn {
-            background-color: #007bff;
+            background-color: #1976d2;
             color: white;
             border: none;
             padding: 8px 15px;
             border-radius: 5px;
             cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .book-btn:hover {
+            background-color: #1565c0;
         }
         
         .profile-btn {
             background-color: transparent;
-            color: #007bff;
-            border: 1px solid #007bff;
+            color: #1976d2;
+            border: 1px solid #1976d2;
             padding: 8px 15px;
             border-radius: 5px;
             cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .profile-btn:hover {
+            background-color: #f5f8ff;
         }
         
         .pagination {
@@ -157,9 +197,198 @@
         }
         
         .pagination button.active {
-            background-color: #007bff;
+            background-color: #1976d2;
             color: white;
-            border-color: #007bff;
+            border-color: #1976d2;
+        }
+        
+        /* Header Styling to match the screenshots */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1976d2;
+            margin: 0;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav ul li {
+            margin: 0 15px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover, 
+        nav ul li a.active {
+            color: #1976d2;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .login-btn {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        
+        .signup-btn {
+            text-decoration: none;
+            background-color: #1976d2;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        /* Main banner styling */
+        .banner {
+            background-color: #1976d2;
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+        }
+        
+        .banner h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .banner p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        .banner-btn {
+            display: inline-block;
+            background-color: white;
+            color: #1976d2;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .banner-btn:hover {
+            background-color: #f5f8ff;
+        }
+        
+        /* Footer styling to match the screenshots */
+        footer {
+            background-color: #f9f9f9;
+            padding: 40px 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-heading {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .footer-text {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icons a {
+            color: #1976d2;
+            font-size: 18px;
+        }
+        
+        .quick-links {
+            margin-bottom: 30px;
+        }
+        
+        .quick-links h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .quick-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .quick-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .quick-links ul li a {
+            text-decoration: none;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .quick-links ul li a:hover {
+            color: #1976d2;
+        }
+        
+        .patient-links {
+            margin-bottom: 30px;
+        }
+        
+        .patient-links h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .patient-links ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .patient-links ul li {
+            margin-bottom: 10px;
+        }
+        
+        .patient-links ul li a {
+            text-decoration: none;
+            color: #666;
+            transition: color 0.3s;
+        }
+        
+        .patient-links ul li a:hover {
+            color: #1976d2;
         }
         
         @media (max-width: 768px) {
@@ -170,6 +399,24 @@
             .doctor-image {
                 width: 100%;
                 height: 200px;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin: 5px 15px 5px 0;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
             }
         }
     </style>
@@ -194,11 +441,13 @@
         </div>
     </header>
 
+    <div class="banner">
+        <h2>Find Your Perfect Doctor</h2>
+        <p>Search for specialized healthcare professionals based on your needs, location, and availability.</p>
+    </div>
+
     <main>
         <div class="container">
-            <h2 class="section-title">Find a Doctor</h2>
-            <p class="section-description">Search for specialized doctors in your area and book appointments online.</p>
-            
             <div class="search-container">
                 <form class="search-form">
                     <select name="specialty" id="specialty">
@@ -344,39 +593,37 @@
     </main>
 
     <footer>
-        <div class="footer-container">
-            <div class="footer-section">
-                <h3>MedConnect</h3>
-                <p>Connecting patients with the best healthcare professionals.</p>
+        <div class="footer-content">
+            <div class="footer-heading">MedConnect</div>
+            <p class="footer-text">Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
             </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
+            
+            <div class="quick-links">
+                <h3>Quick Links</h3>
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="find-doctor.html">Find a Doctor</a></li>
-                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Our Services</a></li>
                     <li><a href="#">About Us</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Contact Us</a></li>
                 </ul>
             </div>
-            <div class="footer-section">
-                <h4>Contact Us</h4>
-                <p><i class="fas fa-map-marker-alt"></i> 123 Medical Plaza, New York, NY</p>
-                <p><i class="fas fa-phone"></i> (123) 456-7890</p>
-                <p><i class="fas fa-envelope"></i> info@medconnect.com</p>
+            
+            <div class="patient-links">
+                <h3>For Patients</h3>
+                <ul>
+                    <li><a href="#">Book Appointment</a></li>
+                    <li><a href="#">Patient Dashboard</a></li>
+                    <li><a href="#">Medical Records</a></li>
+                    <li><a href="#">Prescriptions</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
             </div>
-            <div class="footer-section">
-                <h4>Follow Us</h4>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2025 MedConnect. All rights reserved.</p>
         </div>
     </footer>
 
@@ -461,5 +708,3 @@
     </script>
 </body>
 </html>
-
-// end
