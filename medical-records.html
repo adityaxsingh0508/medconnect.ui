@@ -3,289 +3,979 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Records System</title>
+    <title>MedConnect - Medical Records</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* Global Styles */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
             background-color: #f5f5f5;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 15px;
         }
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
+
+        /* Navigation */
+        .navbar {
+            background-color: #fff;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .nav {
-            background-color: #34495e;
-            overflow: hidden;
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .nav a {
-            float: left;
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e88e5;
             text-decoration: none;
         }
-        .nav a:hover {
-            background-color: #1abc9c;
-        }
-        .main {
+
+        .nav-links {
             display: flex;
-            margin-top: 20px;
+            list-style: none;
         }
-        .sidebar {
-            width: 250px;
-            background-color: #ecf0f1;
-            padding: 20px;
-            border-radius: 5px;
-        }
-        .content {
-            flex: 1;
-            background-color: white;
-            padding: 20px;
+
+        .nav-links li {
             margin-left: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        .patient-info {
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #1e88e5;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #1e88e5;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #fff;
+            color: #1e88e5;
+            border: 1px solid #1e88e5;
+        }
+
+        .btn-primary:hover {
+            background-color: #1976d2;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+        }
+
+        /* Main Content */
+        .hero {
+            background-color: #1e88e5;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        /* Medical Records Specific Styles */
+        .records-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .records-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .records-title {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .records-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .records-filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .records-table th {
+            background-color: #f5f5f5;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
             border-bottom: 1px solid #ddd;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
         }
-        .medical-history {
-            margin-bottom: 20px;
+
+        .records-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
         }
-        .record-item {
+
+        .records-table tr:hover {
             background-color: #f9f9f9;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border-left: 4px solid #3498db;
         }
+
+        .record-actions a {
+            margin-right: 10px;
+            color: #1e88e5;
+            text-decoration: none;
+        }
+
+        .record-actions a:hover {
+            text-decoration: underline;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 5px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination button.active {
+            background-color: #1e88e5;
+            color: white;
+            border-color: #1e88e5;
+        }
+
+        .upload-form {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            display: none;
+        }
+
         .form-group {
             margin-bottom: 15px;
         }
-        label {
+
+        .form-group label {
             display: block;
             margin-bottom: 5px;
-            font-weight: bold;
+            font-weight: 500;
         }
-        input[type="text"], input[type="date"], input[type="email"], textarea, select {
+
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
-            box-sizing: border-box;
         }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
+
+        .form-group textarea {
+            height: 100px;
+        }
+
+        .form-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .record-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge-lab {
+            background-color: #e1f5fe;
+            color: #0288d1;
+        }
+
+        .badge-imaging {
+            background-color: #f3e5f5;
+            color: #8e24aa;
+        }
+
+        .badge-report {
+            background-color: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .badge-prescription {
+            background-color: #fff3e0;
+            color: #ff9800;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #fff;
+            padding: 30px 0;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .footer-section {
+            margin-bottom: 20px;
+            flex: 1;
+            min-width: 200px;
+            margin-right: 20px;
+        }
+
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #666;
+        }
+
+        .footer-links a:hover {
+            color: #1e88e5;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            color: #666;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                background-color: white;
+                padding: 20px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .records-header, .records-filters {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .records-table {
+                font-size: 14px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+        }
+
+        #noRecordsMessage {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #2980b9;
+
+        .close:hover {
+            color: #333;
         }
-        footer {
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 30px;
-            background-color: #2c3e50;
-            color: white;
-        }
-        .search-bar {
-            padding: 20px 0;
-        }
-        .search-bar input {
-            width: 70%;
-            padding: 10px;
-        }
-        .search-bar button {
-            padding: 10px 20px;
-        }
-        .alert {
-            padding: 15px;
-            background-color: #f8d7da;
-            color: #721c24;
-            border-radius: 5px;
+
+        .record-detail {
             margin-bottom: 15px;
+        }
+
+        .record-detail h4 {
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .record-detail p {
+            color: #333;
         }
     </style>
 </head>
 <body>
-    <header>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
         <div class="container">
-            <h1>Medical Records System</h1>
-            <p>Secure Electronic Health Record Management</p>
+            <a href="index.html" class="logo">MedConnect</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="find-a-doctor.html">Find a Doctor</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <button class="btn btn-primary" onclick="location.href='signup.html'">Sign Up</button>
+            <div class="menu-toggle">&#9776;</div>
         </div>
-    </header>
-    
-    <div class="nav">
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="container">
-            <a href="#home">Home</a>
-            <a href="#patients">Patients</a>
-            <a href="#appointments">Appointments</a>
-            <a href="#records">Records</a>
-            <a href="#reports">Reports</a>
-            <a href="#settings">Settings</a>
-            <a href="#logout" style="float: right;">Logout</a>
+            <h1>Your Medical Records</h1>
+            <p>Access and manage your health information in one secure place.</p>
         </div>
-    </div>
-    
-    <div class="container">
-        <div class="search-bar">
-            <input type="text" placeholder="Search patients by name, ID, or condition...">
-            <button>Search</button>
-        </div>
-        
-        <div class="alert">
-            <strong>Privacy Notice:</strong> All patient information is confidential and protected under HIPAA regulations.
-        </div>
-        
-        <div class="main">
-            <div class="sidebar">
-                <h3>Quick Actions</h3>
-                <ul>
-                    <li><a href="#new-patient">Add New Patient</a></li>
-                    <li><a href="#schedule">Schedule Appointment</a></li>
-                    <li><a href="#lab-results">View Lab Results</a></li>
-                    <li><a href="#prescriptions">Manage Prescriptions</a></li>
-                </ul>
-                
-                <h3>Recent Patients</h3>
-                <ul>
-                    <li><a href="#patient1">John Doe</a></li>
-                    <li><a href="#patient2">Jane Smith</a></li>
-                    <li><a href="#patient3">Robert Johnson</a></li>
-                </ul>
+    </section>
+
+    <!-- Medical Records Section -->
+    <section class="container">
+        <div class="records-container">
+            <div class="records-header">
+                <h2 class="records-title">Medical Records</h2>
+                <div class="records-actions">
+                    <button class="btn btn-secondary" id="filterBtn">Filter</button>
+                    <button class="btn btn-primary" id="uploadBtn">Upload New Record</button>
+                </div>
             </div>
-            
-            <div class="content">
-                <h2>Patient Medical Record</h2>
-                
-                <div class="patient-info">
-                    <h3>Personal Information</h3>
-                    <div class="form-group">
-                        <label for="patient-name">Full Name:</label>
-                        <input type="text" id="patient-name" placeholder="Patient's full name">
-                    </div>
-                    <div class="form-group">
-                        <label for="patient-id">Patient ID:</label>
-                        <input type="text" id="patient-id" placeholder="Patient ID number">
-                    </div>
-                    <div class="form-group">
-                        <label for="patient-dob">Date of Birth:</label>
-                        <input type="date" id="patient-dob">
-                    </div>
-                    <div class="form-group">
-                        <label for="patient-gender">Gender:</label>
-                        <select id="patient-gender">
-                            <option value="">Select gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="patient-contact">Contact Number:</label>
-                        <input type="text" id="patient-contact" placeholder="Contact number">
-                    </div>
-                    <div class="form-group">
-                        <label for="patient-email">Email:</label>
-                        <input type="email" id="patient-email" placeholder="Email address">
-                    </div>
-                    <div class="form-group">
-                        <label for="patient-address">Address:</label>
-                        <textarea id="patient-address" rows="3" placeholder="Full address"></textarea>
-                    </div>
+
+            <!-- Filters - Hidden by default, shown when Filter button clicked -->
+            <div class="records-filters" id="filtersSection" style="display: none;">
+                <div class="filter-group">
+                    <label for="recordType">Record Type</label>
+                    <select id="recordType">
+                        <option value="all">All Types</option>
+                        <option value="lab">Lab Results</option>
+                        <option value="imaging">Imaging</option>
+                        <option value="report">Medical Reports</option>
+                        <option value="prescription">Prescriptions</option>
+                    </select>
                 </div>
-                
-                <div class="medical-history">
-                    <h3>Medical History</h3>
-                    <div class="form-group">
-                        <label for="allergies">Allergies:</label>
-                        <textarea id="allergies" rows="2" placeholder="List any allergies"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="chronic-conditions">Chronic Conditions:</label>
-                        <textarea id="chronic-conditions" rows="2" placeholder="List any chronic conditions"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="current-medications">Current Medications:</label>
-                        <textarea id="current-medications" rows="3" placeholder="List current medications with dosage"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="family-history">Family Medical History:</label>
-                        <textarea id="family-history" rows="3" placeholder="Relevant family medical history"></textarea>
-                    </div>
+                <div class="filter-group">
+                    <label for="dateFrom">Date From</label>
+                    <input type="date" id="dateFrom">
                 </div>
-                
-                <h3>Visit Records</h3>
-                <div class="record-item">
-                    <h4>Visit: April 15, 2025</h4>
-                    <p><strong>Doctor:</strong> Dr. Sarah Williams</p>
-                    <p><strong>Chief Complaint:</strong> Persistent cough and fever</p>
-                    <p><strong>Diagnosis:</strong> Acute bronchitis</p>
-                    <p><strong>Treatment:</strong> Prescribed antibiotics and cough suppressant</p>
-                    <p><strong>Notes:</strong> Patient advised to rest and increase fluid intake. Follow-up appointment scheduled in one week.</p>
+                <div class="filter-group">
+                    <label for="dateTo">Date To</label>
+                    <input type="date" id="dateTo">
                 </div>
-                
-                <div class="record-item">
-                    <h4>Visit: March 2, 2025</h4>
-                    <p><strong>Doctor:</strong> Dr. James Chen</p>
-                    <p><strong>Chief Complaint:</strong> Annual physical</p>
-                    <p><strong>Diagnosis:</strong> Healthy, slight elevation in blood pressure</p>
-                    <p><strong>Treatment:</strong> Recommended lifestyle modifications</p>
-                    <p><strong>Notes:</strong> Patient advised to monitor blood pressure at home and reduce sodium intake. Lab work ordered.</p>
+                <div class="filter-group">
+                    <label for="doctor">Doctor</label>
+                    <select id="doctor">
+                        <option value="all">All Doctors</option>
+                        <option value="1">Dr. Sarah Johnson</option>
+                        <option value="2">Dr. Michael Wong</option>
+                        <option value="3">Dr. Emily Chen</option>
+                    </select>
                 </div>
-                
-                <h3>Add New Record</h3>
+                <button class="btn btn-primary" id="applyFilters">Apply Filters</button>
+            </div>
+
+            <!-- Upload Form - Hidden by default, shown when Upload button clicked -->
+            <div class="upload-form" id="uploadForm">
+                <h3>Upload New Medical Record</h3>
                 <div class="form-group">
-                    <label for="visit-date">Visit Date:</label>
-                    <input type="date" id="visit-date">
+                    <label for="uploadType">Record Type</label>
+                    <select id="uploadType" required>
+                        <option value="">Select Type</option>
+                        <option value="lab">Lab Results</option>
+                        <option value="imaging">Imaging</option>
+                        <option value="report">Medical Reports</option>
+                        <option value="prescription">Prescriptions</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="doctor">Doctor:</label>
-                    <input type="text" id="doctor" placeholder="Doctor's name">
+                    <label for="recordDate">Record Date</label>
+                    <input type="date" id="recordDate" required>
                 </div>
                 <div class="form-group">
-                    <label for="chief-complaint">Chief Complaint:</label>
-                    <textarea id="chief-complaint" rows="2" placeholder="Main reason for visit"></textarea>
+                    <label for="doctorName">Doctor</label>
+                    <select id="doctorName" required>
+                        <option value="">Select Doctor</option>
+                        <option value="1">Dr. Sarah Johnson</option>
+                        <option value="2">Dr. Michael Wong</option>
+                        <option value="3">Dr. Emily Chen</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="diagnosis">Diagnosis:</label>
-                    <textarea id="diagnosis" rows="2" placeholder="Diagnosis details"></textarea>
+                    <label for="recordTitle">Title</label>
+                    <input type="text" id="recordTitle" placeholder="E.g., Annual Blood Work" required>
                 </div>
                 <div class="form-group">
-                    <label for="treatment">Treatment Plan:</label>
-                    <textarea id="treatment" rows="3" placeholder="Treatment details"></textarea>
+                    <label for="recordDescription">Description</label>
+                    <textarea id="recordDescription" placeholder="Brief description of the medical record"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="visit-notes">Additional Notes:</label>
-                    <textarea id="visit-notes" rows="4" placeholder="Additional notes about the visit"></textarea>
+                    <label for="recordFile">Upload File</label>
+                    <input type="file" id="recordFile">
                 </div>
-                
-                <button>Save Record</button>
-                <button style="background-color: #e74c3c;">Delete Record</button>
+                <div class="form-buttons">
+                    <button class="btn btn-secondary" id="cancelUpload">Cancel</button>
+                    <button class="btn btn-primary" id="submitRecord">Submit</button>
+                </div>
+            </div>
+
+            <!-- Medical Records Table -->
+            <table class="records-table" id="recordsTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Doctor</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Records will be populated by JavaScript -->
+                </tbody>
+            </table>
+
+            <!-- Message for no records -->
+            <div id="noRecordsMessage" style="display: none;">
+                <p>You don't have any medical records yet. Click "Upload New Record" to add your first record.</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="recordsPagination">
+                <!-- Pagination buttons will be populated by JavaScript -->
             </div>
         </div>
+    </section>
+
+    <!-- Record Detail Modal -->
+    <div id="recordModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">Record Details</h2>
+            <div class="record-detail">
+                <h4>Date</h4>
+                <p id="modalDate"></p>
+            </div>
+            <div class="record-detail">
+                <h4>Type</h4>
+                <p id="modalType"></p>
+            </div>
+            <div class="record-detail">
+                <h4>Doctor</h4>
+                <p id="modalDoctor"></p>
+            </div>
+            <div class="record-detail">
+                <h4>Description</h4>
+                <p id="modalDescription"></p>
+            </div>
+            <div class="record-detail">
+                <h4>File</h4>
+                <p id="modalFile"><a href="#" id="fileDownload">Download File</a></p>
+            </div>
+        </div>
     </div>
-    
+
+    <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2025 Medical Records System. All rights reserved.</p>
-            <p>For technical support, please contact: support@medicalrecords.example.com</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MedConnect</h3>
+                    <p>Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+                    <div class="social-links">
+                        <a href="#">f</a>
+                        <a href="#">t</a>
+                        <a href="#">in</a>
+                        <a href="#">ig</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="find-a-doctor.html">Find a Doctor</a></li>
+                        <li><a href="services.html">Our Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>For Patients</h3>
+                    <ul class="footer-links">
+                        <li><a href="book-appointment.html">Book Appointment</a></li>
+                        <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
+                        <li><a href="medical-records.html">Medical Records</a></li>
+                        <li><a href="prescriptions.html">Prescriptions</a></li>
+                        <li><a href="faqs.html">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>For Doctors</h3>
+                    <ul class="footer-links">
+                        <li><a href="doctor-registration.html">Register as Doctor</a></li>
+                        <li><a href="doctor-dashboard.html">Doctor Dashboard</a></li>
+                        <li><a href="patient-management.html">Patient Management</a></li>
+                        <li><a href="doctor-schedule.html">Manage Schedule</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </footer>
+
+    <script>
+        // Sample data for medical records
+        const sampleRecords = [
+            {
+                id: 1,
+                date: '2025-04-15',
+                title: 'Annual Blood Test Results',
+                type: 'lab',
+                typeName: 'Lab Results',
+                doctor: 'Dr. Sarah Johnson',
+                doctorId: 1,
+                description: 'Complete blood count, lipid panel, and basic metabolic panel results from annual physical examination.',
+                fileName: 'blood_test_results.pdf'
+            },
+            {
+                id: 2,
+                date: '2025-03-22',
+                title: 'Chest X-Ray',
+                type: 'imaging',
+                typeName: 'Imaging',
+                doctor: 'Dr. Michael Wong',
+                doctorId: 2,
+                description: 'Chest X-ray taken to investigate persistent cough. Results show no abnormalities.',
+                fileName: 'chest_xray.jpg'
+            },
+            {
+                id: 3,
+                date: '2025-02-10',
+                title: 'Cardiology Consultation',
+                type: 'report',
+                typeName: 'Medical Report',
+                doctor: 'Dr. Emily Chen',
+                doctorId: 3,
+                description: 'Follow-up consultation with cardiologist regarding heart health and medication management.',
+                fileName: 'cardiology_report.pdf'
+            },
+            {
+                id: 4,
+                date: '2025-01-05',
+                title: 'Hypertension Medication',
+                type: 'prescription',
+                typeName: 'Prescription',
+                doctor: 'Dr. Sarah Johnson',
+                doctorId: 1,
+                description: 'Prescription for Lisinopril 10mg, once daily for blood pressure management.',
+                fileName: 'bp_prescription.pdf'
+            }
+        ];
+
+        // DOM Elements
+        const filterBtn = document.getElementById('filterBtn');
+        const filtersSection = document.getElementById('filtersSection');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const uploadForm = document.getElementById('uploadForm');
+        const cancelUpload = document.getElementById('cancelUpload');
+        const submitRecord = document.getElementById('submitRecord');
+        const recordsTable = document.getElementById('recordsTable');
+        const recordsPagination = document.getElementById('recordsPagination');
+        const noRecordsMessage = document.getElementById('noRecordsMessage');
+        const applyFilters = document.getElementById('applyFilters');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const modal = document.getElementById('recordModal');
+        const modalClose = document.querySelector('.close');
+
+        // Global Variables
+        let currentRecords = [...sampleRecords];
+        let currentPage = 1;
+        const recordsPerPage = 5;
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            displayRecords();
+            setupPagination();
+        });
+
+        filterBtn.addEventListener('click', function() {
+            filtersSection.style.display = filtersSection.style.display === 'none' ? 'flex' : 'none';
+        });
+
+        uploadBtn.addEventListener('click', function() {
+            uploadForm.style.display = uploadForm.style.display === 'none' ? 'block' : 'none';
+        });
+
+        cancelUpload.addEventListener('click', function() {
+            uploadForm.style.display = 'none';
+            // Reset form fields
+            document.getElementById('uploadType').value = '';
+            document.getElementById('recordDate').value = '';
+            document.getElementById('doctorName').value = '';
+            document.getElementById('recordTitle').value = '';
+            document.getElementById('recordDescription').value = '';
+            document.getElementById('recordFile').value = '';
+        });
+
+        submitRecord.addEventListener('click', function() {
+            const type = document.getElementById('uploadType').value;
+            const date = document.getElementById('recordDate').value;
+            const doctorId = document.getElementById('doctorName').value;
+            const title = document.getElementById('recordTitle').value;
+            const description = document.getElementById('recordDescription').value;
+            const file = document.getElementById('recordFile').value;
+
+            // Simple form validation
+            if (!type || !date || !doctorId || !title) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Get doctor name from doctor ID
+            let doctorName = '';
+            if (doctorId === '1') doctorName = 'Dr. Sarah Johnson';
+            else if (doctorId === '2') doctorName = 'Dr. Michael Wong';
+            else if (doctorId === '3') doctorName = 'Dr. Emily Chen';
+
+            // Get type name from type
+            let typeName = '';
+            if (type === 'lab') typeName = 'Lab Results';
+            else if (type === 'imaging') typeName = 'Imaging';
+            else if (type === 'report') typeName = 'Medical Report';
+            else if (type === 'prescription') typeName = 'Prescription';
+
+            // Create new record
+            const newRecord = {
+                id: sampleRecords.length + 1,
+                date: date,
+                title: title,
+                type: type,
+                typeName: typeName,
+                doctor: doctorName,
+                doctorId: parseInt(doctorId),
+                description: description,
+                fileName: file.split('\\').pop() || 'document.pdf'
+            };
+
+            // Add record to the array
+            sampleRecords.unshift(newRecord);
+            currentRecords = [...sampleRecords];
+
+            // Update display
+            displayRecords();
+            setupPagination();
+
+            // Hide form and reset fields
+            uploadForm.style.display = 'none';
+            document.getElementById('uploadType').value = '';
+            document.getElementById('recordDate').value = '';
+            document.getElementById('doctorName').value = '';
+            document.getElementById('recordTitle').value = '';
+            document.getElementById('recordDescription').value = '';
+            document.getElementById('recordFile').value = '';
+
+            alert('Record added successfully!');
+        });
+
+        applyFilters.addEventListener('click', function() {
+            const recordType = document.getElementById('recordType').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            const doctor = document.getElementById('doctor').value;
+
+            // Filter records
+            currentRecords = sampleRecords.filter(record => {
+                let matchType = recordType === 'all' || record.type === recordType;
+                let matchDoctor = doctor === 'all' || record.doctorId === parseInt(doctor);
+                let matchDateFrom = !dateFrom || record.date >= dateFrom;
+                let matchDateTo = !dateTo || record.date <= dateTo;
+
+                return matchType && matchDoctor && matchDateFrom && matchDateTo;
+            });
+
+            // Reset to first page and update display
+            currentPage = 1;
+            displayRecords();
+            setupPagination();
+        });
+
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+
+        modalClose.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Functions
+        function displayRecords() {
+            const tbody = recordsTable.querySelector('tbody');
+            tbody.innerHTML = '';
+
+            if (currentRecords.length === 0) {
+                recordsTable.style.display = 'none';
+                noRecordsMessage.style.display = 'block';
+                recordsPagination.style.display = 'none';
+                return;
+            }
+
+            recordsTable.style.display = 'table';
+            noRecordsMessage.style.display = 'none';
+            recordsPagination.style.display = 'flex';
+
+            // Calculate pagination
+            const startIndex = (currentPage - 1) * recordsPerPage;
+            const endIndex = startIndex + recordsPerPage;
+            const paginatedRecords = currentRecords.slice(startIndex, endIndex);
+
+            // Create table rows
+            paginatedRecords.forEach(record => {
+                const tr = document.createElement('tr');
+                
+                // Format date
+                const recordDate = new Date(record.date);
+                const formattedDate = recordDate.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+
+                tr.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${record.title}</td>
+                    <td><span class="record-badge badge-${record.type}">${record.typeName}</span></td>
+                    <td>${record.doctor}</td>
+                    <td class="record-actions">
+                        <a href="#" onclick="viewRecord(${record.id})">View</a>
+                        <a href="#" onclick="downloadRecord(${record.id})">Download</a>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function setupPagination() {
+            const totalPages = Math.ceil(currentRecords.length / recordsPerPage);
+            recordsPagination.innerHTML = '';
+
+            if (totalPages <= 1) {
+                return;
+            }
+
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.innerText = '←';
+            prevButton.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayRecords();
+                    setupPagination();
+                }
+            });
+            recordsPagination.appendChild(prevButton);
+
+            // Page buttons
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.innerText = i;
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.addEventListener('click', function() {
+                    currentPage = i;
+                    displayRecords();
+                    setupPagination();
+                });
+                recordsPagination.appendChild(pageButton);
+            }
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.innerText = '→';
+            nextButton.addEventListener('click', function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayRecords();
+                    setupPagination();
+                }
+            });
+            recordsPagination.appendChild(nextButton);
+        }
+
+        // Global functions for record actions
+        window.viewRecord = function(id) {
+            const record = sampleRecords.find(r => r.id === id);
+            if (record) {
+                document.getElementById('modalTitle').innerText = record.title;
+                document.getElementById('modalDate').innerText = new Date(record.date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                document.getElementById('modalType').innerText = record.typeName;
+                document.getElementById('modalDoctor').innerText = record.doctor;
+                document.getElementById('modalDescription').innerText = record.description;
+                document.getElementById('fileDownload').innerText = record.fileName;
+                
+                modal.style.display = 'block';
+            }
+        };
+
+        window.downloadRecord = function(id) {
+            const record = sampleRecords.find(r => r.id === id);
+            if (record) {
+                // In a real application, this would initiate a file download
+                // For this demo, we'll just show an alert
+                alert(`Downloading file: ${record.fileName}`);
+                
+                // In a real implementation, you would use something like:
+                // const url = `/api/records/${id}/download`;
+                // window.open(url, '_blank');
+            }
+        };
+
+        // Initialize responsive navbar
+        function initResponsiveNav() {
+            const mediaQuery = window.matchMedia('(max-width: 768px)');
+            
+            function handleScreenChange(e) {
+                if (!e.matches) {
+                    navLinks.classList.remove('active');
+                }
+            }
+            
+            mediaQuery.addEventListener('change', handleScreenChange);
+            handleScreenChange(mediaQuery);
+        }
+
+        // Call init functions
+        initResponsiveNav();
+    </script>
 </body>
 </html>
