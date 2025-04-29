@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConnect - Prescriptions</title>
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Global styles */
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-left: 25px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #1a73e8;
+        }
+
+        .login-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            background-color: transparent;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-signup {
+            background-color: #1a73e8;
+            color: #fff;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-login:hover {
+            background-color: #f5f5f5;
+        }
+
+        .btn-signup:hover {
+            background-color: #0d62d0;
+        }
+
+        .btn-mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Main content styles */
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #1a73e8;
+            padding-bottom: 10px;
+        }
+
+        /* Prescription styles */
+        .prescription-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .prescription-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px 8px 0 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .btn-filter {
+            background-color: #1a73e8;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-add-prescription {
+            background-color: #1a73e8;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-add-prescription:hover,
+        .btn-filter:hover {
+            background-color: #0d62d0;
+        }
+
+        .prescription-list {
+            padding: 0;
+        }
+
+        .prescription-item {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            transition: background-color 0.3s;
+        }
+
+        .prescription-item:last-child {
+            border-bottom: none;
+        }
+
+        .prescription-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .prescription-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .prescription-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .prescription-status {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: #e6f7ed;
+            color: #0a7b3b;
+        }
+
+        .status-expired {
+            background-color: #ffe8e8;
+            color: #d32f2f;
+        }
+
+        .status-pending {
+            background-color: #fff5e6;
+            color: #e65100;
+        }
+
+        .prescription-info {
+            width: 65%;
+        }
+
+        .prescription-details {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .detail-item {
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+
+        .detail-label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .prescription-meds {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .med-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .med-item:last-child {
+            border-bottom: none;
+        }
+
+        .med-name {
+            font-weight: 500;
+        }
+
+        .med-dosage {
+            color: #666;
+        }
+
+        .prescription-actions {
+            width: 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn-action {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-view {
+            background-color: #e8f0fe;
+            color: #1a73e8;
+        }
+
+        .btn-renew {
+            background-color: #e6f7ed;
+            color: #0a7b3b;
+        }
+
+        .btn-download {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-view:hover {
+            background-color: #d2e3fc;
+        }
+
+        .btn-renew:hover {
+            background-color: #ccf0dd;
+        }
+
+        .btn-download:hover {
+            background-color: #e8e8e8;
+        }
+
+        .prescription-notes {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            text-align: right;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 70%;
+            max-width: 700px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: modalopen 0.3s;
+        }
+
+        @keyframes modalopen {
+            from {
+                opacity: 0;
+                transform: translateY(-60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+            color: #888;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-cancel {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .btn-save {
+            background-color: #1a73e8;
+            color: #fff;
+        }
+
+        .btn-cancel:hover {
+            background-color: #e8e8e8;
+        }
+
+        .btn-save:hover {
+            background-color: #0d62d0;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            margin: 0 5px;
+            border-radius: 5px;
+            background-color: #fff;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .pagination-item:hover,
+        .pagination-item.active {
+            background-color: #1a73e8;
+            color: #fff;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 30px 0;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .footer-section {
+            flex: 1;
+            margin-right: 30px;
+            margin-bottom: 20px;
+            min-width: 200px;
+        }
+
+        .footer-section:last-child {
+            margin-right: 0;
+        }
+
+        .footer-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #1a73e8;
+        }
+
+        .social-links {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            margin-right: 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: #1a73e8;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .btn-mobile-menu {
+                display: block;
+            }
+
+            .prescription-info {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .prescription-actions {
+                width: 100%;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .prescription-filters {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .filter-group {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .search-input,
+            .filter-select {
+                width: 100%;
+            }
+
+            .action-buttons {
+                flex-wrap: wrap;
+            }
+
+            .footer-section {
+                flex: 100%;
+                margin-right: 0;
+            }
+
+            .modal-content {
+                width: 90%;
+                margin: 20% auto;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .login-buttons {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .btn {
+                width: 48%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">MedConnect</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="find-doctor.html">Find a Doctor</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="login-buttons">
+                <a href="login.html" class="btn btn-login">Login</a>
+                <a href="signup.html" class="btn btn-signup">Sign Up</a>
+            </div>
+            <button class="btn-mobile-menu">☰</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">My Prescriptions</h1>
+
+            <div class="prescription-container">
+                <div class="prescription-filters">
+                    <div class="filter-group">
+                        <input type="text" class="search-input" placeholder="Search medicines...">
+                        <select class="filter-select">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="pending">Pending</option>
+                            <option value="expired">Expired</option>
+                        </select>
+                        <button class="btn-filter">Filter</button>
+                    </div>
+                    <button class="btn-add-prescription" id="openRequestModal">Request New Prescription</button>
+                </div>
+
+                <div class="prescription-list">
+                    <!-- Prescription Item 1 -->
+                    <div class="prescription-item">
+                        <div class="prescription-header">
+                            <h3 class="prescription-title">General Checkup Prescription</h3>
+                            <span class="prescription-status status-active">Active</span>
+                        </div>
+                        <div class="prescription-info">
+                            <div class="prescription-details">
+                                <div class="detail-item">
+                                    <p class="detail-label">Doctor</p>
+                                    <p class="detail-value">Dr. Sarah Johnson</p>
+                                </div>
+                                <div class="detail-item">
+                                    <p class="detail-label">Date Issued</p>
+                                    <p class="detail-value">15-04-2025</p>
+                                </div>
+                                <div class="detail-item">
+                                    <p class="detail-label">Valid Until</p>
+                                    <p class="detail-value">15-07-2025</p>
+                                </div>
+                                <div class="detail-item">
+                                    <p class="detail-label">Refills</p>
+                                    <p class="detail-value">2 remaining</p>
+                                </div>
+                            </div>
+                            <div class="prescription-meds">
+                                <div class="med-item">
+                                    <span class="med-name">Amoxicillin</span>
+                                    <span class="med-dosage">500mg, 3 times daily for 7 days</span>
+                                </div>
+                                <div class="med-item">
+                                    <span class="med-name">Paracetamol</span>
+                                    <span class="med-dosage">500mg, as needed for pain</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="prescription-actions">
+                            <div class="action-buttons">
+                                <button class="btn-action btn-view">View Details</button>
+                                <button class="btn-action btn-renew">Request Refill</button>
+                                <button class="btn-action btn-download">Download</button>
+                            </div>
+                            <p class="prescription-notes">Last refilled on 29-04-2025</p>
+                        </div>
+                    </div>
+
+                    <!-- Prescription Item 2 -->
+                    <div class="prescription-item">
+                        <div class="prescription-header">
+                            <h3 class="prescription-title">Allergy Medication</h3>
+                            <span class="prescription-status status-pending">Pending Approval</span>
+                        </div>
+                        <div class="prescription-info">
+                            <div class="prescription-details">
+                                <div class="detail-item">
+                                    <p class="detail-label">Doctor</p>
+                                    <p class="detail-value">Dr. Michael Chen</p>
+                                </div>
+                                <div class="detail-item">
+                                    <p class="detail-label">Date Requested</p>
+                                    <p class="detail-value">28-04-2025</p>
+                                </div>
+                                <div class="detail-item">
+                                    <p class="detail-label">Status Update</p>
+                                    <p class="detail-value">Awaiting doctor's approval</p>
+                                </div>
+                            </div>
+                            <div class="prescription-meds">
+                                <div class="med-item">
+                                    <span class="med-name">Cetirizine</span>
+                                    <span class="med-dosage">10mg, once daily</span>
+                                </div>
+                                <div class="med-item">
+                                    <span class="med-name">Fluticasone Nasal Spray</span>
+                                    <span class="med-dosage">1 spray in each nostril daily</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="prescription-actions">
+                            <div class="action-buttons">
+                                <button class="btn-action btn-view">View Request</button>
+                                <button class="btn-action btn-download" disabled>Download</button>
+                            </div>
+                            <p class="prescription-notes">Request submitted on 28-04-2025</p>
+                        </div>
+                    </div>
+
+                    <!-- Prescription Item 3 -->
+                    <div class="prescription-item">
+                        <div class="prescription-header">
+                            <h3 class="prescription-title">Blood Pressure Medication</h3>
+                            <span class="prescription-status status-expired">Expired</span>
+                        </div>
+                        <div class="prescription-info">
+                            <div class="prescription-details">
+                                <div class="detail-item">
+                                    <p class="detail-label">Doctor</p>
+                                    <p class="detail-value">Dr. James Wilson</p>
+                                </div>
+                                <div class="detail-item">
+                                    <p class="detail-label">Date Issued</p>
+                                    <p class="detail-value">10-01-2025</p>
+                                </div>
+                                <div class="detail-item">
+                                    <p class="detail-label">Expired On</p>
+                                    <p class="detail-value">10-04-2025</p>
+                                </div>
+                                <div class="detail-item">
+                                    <p class="detail-label">Refills</p>
+                                    <p class="detail-value">0 remaining</p>
+                                </div>
+                            </div>
+                            <div class="prescription-meds">
+                                <div class="med-item">
+                                    <span class="med-name">Amlodipine</span>
+                                    <span class="med-dosage">5mg, once daily</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="prescription-actions">
+                            <div class="action-buttons">
+                                <button class="btn-action btn-view">View Details</button>
+                                <button class="btn-action btn-renew">Request Renewal</button>
+                                <button class="btn-action btn-download">Download</button>
+                            </div>
+                            <p class="prescription-notes">Expired 19 days ago</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <div class="pagination-item">1</div>
+                <div class="pagination-item">2</div>
+                <div class="pagination-item">3</div>
+                <div class="pagination-item">></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Request Prescription Modal -->
+    <div id="requestPrescriptionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Request New Prescription</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="prescriptionRequestForm">
+                    <div class="form-group">
+                        <label for="doctorSelect" class="form-label">Select Doctor</label>
+                        <select id="doctorSelect" class="form-input">
+                            <option value="">Select your doctor</option>
+                            <option value="1">Dr. Sarah Johnson - General Physician</option>
+                            <option value="2">Dr. Michael Chen - Allergist</option>
+                            <option value="3">Dr. James Wilson - Cardiologist</option>
+                            <option value="4">Dr. Emma Davis - Dermatologist</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="medicationName" class="form-label">Medication Name</label>
+                        <input type="text" id="medicationName" class="form-input" placeholder="Enter medication name">
+                    </div>
+                    <div class="form-group">
+                        <label for="dosage" class="form-label">Dosage (if known)</label>
+                        <input type="text" id="dosage" class="form-input" placeholder="e.g. 500mg, 3 times daily">
+                    </div>
+                    <div class="form-group">
+                        <label for="reason" class="form-label">Reason for Prescription</label>
+                        <textarea id="reason" class="form-textarea" placeholder="Please describe your symptoms or reason for medication request"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="allergies" class="form-label">Known Allergies</label>
+                        <textarea id="allergies" class="form-textarea" placeholder="List any known allergies or 'None'"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="existingMedications" class="form-label">Current Medications</label>
+                        <textarea id="existingMedications" class="form-textarea" placeholder="List any medications you are currently taking or 'None'"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel close-modal">Cancel</button>
+                <button class="btn btn-save" id="submitRequest">Submit Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">MedConnect</h3>
+                    <p>Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+                    <div class="social-links">
+                        <a href="#">f</a>
+                        <a href="#">t</a>
+                        <a href="#">in</a>
+                        <a href="#">ig</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="find-doctor.html">Find a Doctor</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">For Patients</h3>
+                    <ul class="footer-links">
+                        <li><a href="book-appointment.html">Book Appointment</a></li>
+                        <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
+                        <li><a href="medical-records.html">Medical Records</a></li>
+                        <li><a href="prescriptions.html">Prescriptions</a></li>
+                        <li><a href="faqs.html">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <ul class="footer-links">
+                        <li>123 Medical Plaza, Health District</li>
+                        <li>Cityname, State 12345</li>
+                        <li>Phone: (123) 456-7890</li>
+                        <li>Email: info@medconnect.com</li>
+                        <li>Support: support@medconnect.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MedConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Modal functionality
+        const modal = document.getElementById('requestPrescriptionModal');
+        const openModalBtn = document.getElementById('openRequestModal');
+        const closeModalBtns = document.querySelectorAll('.close-modal');
+        const submitRequestBtn = document.getElementById('submitRequest');
+
+        // Open modal
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
