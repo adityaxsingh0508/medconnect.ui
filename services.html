@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConnect - Our Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #1a73e8;
+        }
+
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .login-btn, .signup-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .login-btn {
+            color: #333;
+            margin-right: 1rem;
+        }
+
+        .signup-btn {
+            background-color: #1a73e8;
+            color: white;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        /* Main Content Styles */
+        .hero-section {
+            background-color: #1a73e8;
+            color: white;
+            text-align: center;
+            padding: 3rem 1rem;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Services Section */
+        .services-container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .services-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .services-intro h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .services-intro p {
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-img {
+            height: 180px;
+            background-color: #e9f0fe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .service-img i {
+            font-size: 3rem;
+            color: #1a73e8;
+        }
+
+        .service-content {
+            padding: 1.5rem;
+        }
+
+        .service-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #333;
+        }
+
+        .service-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .learn-more {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #1a73e8;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .learn-more:hover {
+            background-color: #0d62d0;
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            background-color: #f0f6ff;
+            padding: 4rem 1rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .cta-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .primary-btn {
+            background-color: #1a73e8;
+            color: white;
+        }
+
+        .primary-btn:hover {
+            background-color: #0d62d0;
+        }
+
+        .secondary-btn {
+            border: 1px solid #1a73e8;
+            color: #1a73e8;
+            background-color: white;
+        }
+
+        .secondary-btn:hover {
+            background-color: #e9f0fe;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: white;
+            padding: 3rem 1rem;
+            color: #333;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #1a73e8;
+        }
+
+        .footer-section p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .social-icons a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #1a73e8;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+            color: #888;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 900px) {
+            .nav-links, .auth-buttons {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">MedConnect</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="find-doctor.html">Find a Doctor</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="signup.html" class="signup-btn">Sign Up</a>
+        </div>
+        <div class="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1>Our Healthcare Services</h1>
+        <p>Discover the comprehensive range of services we offer to help you manage your health efficiently and effectively.</p>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-container">
+        <div class="services-intro">
+            <h2>What We Offer</h2>
+            <p>MedConnect provides a suite of innovative healthcare services designed to make your medical journey smoother and more accessible.</p>
+        </div>
+
+        <div class="services-grid">
+            <!-- Service 1 -->
+            <div class="service-card">
+                <div class="service-img">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Doctor Consultations</h3>
+                    <p>Connect with qualified healthcare professionals quickly and easily. Book appointments, get consultations, and receive personalized care.</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-card">
+                <div class="service-img">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Appointment Scheduling</h3>
+                    <p>Effortlessly schedule, reschedule, or cancel appointments with your healthcare providers through our intuitive platform.</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-card">
+                <div class="service-img">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Health Monitoring</h3>
+                    <p>Track your vital signs, health metrics, and progress over time with our comprehensive health monitoring tools.</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="service-card">
+                <div class="service-img">
+                    <i class="fas fa-file-medical"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Medical Records</h3>
+                    <p>Access your medical history, test results, and treatment plans securely in one centralized location.</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="service-card">
+                <div class="service-img">
+                    <i class="fas fa-pills"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Prescription Management</h3>
+                    <p>Manage your medications, get timely refills, and access your prescription history with our prescription management system.</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="service-card">
+                <div class="service-img">
+                    <i class="fas fa-video"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Telemedicine</h3>
+                    <p>Connect with healthcare providers remotely through secure video consultations from the comfort of your home.</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+        <h2>Ready to take control of your health?</h2>
+        <p>Join thousands of patients who have simplified their healthcare journey with MedConnect.</p>
+        <div class="cta-buttons">
+            <a href="signup.html" class="cta-btn primary-btn">Sign Up Now</a>
+            <a href="contact.html" class="cta-btn secondary-btn">Contact Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MedConnect</h3>
+                    <p>Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="find-doctor.html">Find a Doctor</a></li>
+                        <li><a href="services.html">Our Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>For Patients</h3>
+                    <ul class="footer-links">
+                        <li><a href="book-appointment.html">Book Appointment</a></li>
+                        <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
+                        <li><a href="medical-records.html">Medical Records</a></li>
+                        <li><a href="prescriptions.html">Prescriptions</a></li>
+                        <li><a href="faqs.html">FAQs</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>For Doctors</h3>
+                    <ul class="footer-links">
+                        <li><a href="doctor-registration.html">Register as Doctor</a></li>
+                        <li><a href="doctor-dashboard.html">Doctor Dashboard</a></li>
+                        <li><a href="patient-management.html">Patient Management</a></li>
+                        <li><a href="schedule-management.html">Schedule Management</a></li>
+                        <li><a href="doctor-resources.html">Resources</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 MedConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile navigation toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const authButtons = document.querySelector('.auth-buttons');
+            
+            hamburger.addEventListener('click', function() {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '70px';
+                navLinks.style.left = '0';
+                navLinks.style.backgroundColor = 'white';
+                navLinks.style.width = '100%';
+                navLinks.style.padding = '1rem';
+                navLinks.style.boxShadow = '0 5px 10px rgba(0, 0, 0, 0.1)';
+                navLinks.style.zIndex = '100';
+                
+                if (authButtons.style.display === 'flex') {
+                    authButtons.style.display = 'none';
+                } else {
+                    setTimeout(() => {
+                        authButtons.style.display = 'flex';
+                        authButtons.style.flexDirection = 'column';
+                        authButtons.style.width = '100%';
+                        authButtons.style.marginTop = '1rem';
+                    }, 100);
+                }
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!hamburger.contains(event.target) && 
+                    !navLinks.contains(event.target) && 
+                    !authButtons.contains(event.target)) {
+                    navLinks.style.display = 'none';
+                    authButtons.style.display = 'none';
+                }
+            });
+            
+            // Adjust display on window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 900) {
+                    navLinks.style.display = 'flex';
+                    navLinks.style.flexDirection = 'row';
+                    navLinks.style.position = 'static';
+                    navLinks.style.width = 'auto';
+                    navLinks.style.padding = '0';
+                    navLinks.style.boxShadow = 'none';
+                    
+                    authButtons.style.display = 'flex';
+                    authButtons.style.flexDirection = 'row';
+                    authButtons.style.width = 'auto';
+                    authButtons.style.marginTop = '0';
+                } else {
+                    navLinks.style.display = 'none';
+                    authButtons.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
