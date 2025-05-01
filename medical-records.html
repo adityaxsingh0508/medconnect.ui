@@ -487,9 +487,9 @@
                     <label for="doctor">Doctor</label>
                     <select id="doctor">
                         <option value="all">All Doctors</option>
-                        <option value="1">Dr. Sarah Johnson</option>
-                        <option value="2">Dr. Michael Wong</option>
-                        <option value="3">Dr. Emily Chen</option>
+                        <option value="1">Dr. Rajesh Sharma</option>
+                        <option value="2">Dr. Ananya Joshi</option>
+                        <option value="3">Dr. Kavita Gupta</option>
                     </select>
                 </div>
                 <button class="btn btn-primary" id="applyFilters">Apply Filters</button>
@@ -516,9 +516,9 @@
                     <label for="doctorName">Doctor</label>
                     <select id="doctorName" required>
                         <option value="">Select Doctor</option>
-                        <option value="1">Dr. Sarah Johnson</option>
-                        <option value="2">Dr. Michael Wong</option>
-                        <option value="3">Dr. Emily Chen</option>
+                        <option value="1">Dr. Rajesh Sharma</option>
+                        <option value="2">Dr. Ananya Joshi</option>
+                        <option value="3">Dr. Kavita Gupta</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -651,7 +651,7 @@
                 title: 'Annual Blood Test Results',
                 type: 'lab',
                 typeName: 'Lab Results',
-                doctor: 'Dr. Sarah Johnson',
+                doctor: 'Dr. Rajesh Sharma',
                 doctorId: 1,
                 description: 'Complete blood count, lipid panel, and basic metabolic panel results from annual physical examination.',
                 fileName: 'blood_test_results.pdf'
@@ -662,7 +662,7 @@
                 title: 'Chest X-Ray',
                 type: 'imaging',
                 typeName: 'Imaging',
-                doctor: 'Dr. Michael Wong',
+                doctor: 'Dr. Ananya Joshi',
                 doctorId: 2,
                 description: 'Chest X-ray taken to investigate persistent cough. Results show no abnormalities.',
                 fileName: 'chest_xray.jpg'
@@ -673,7 +673,7 @@
                 title: 'Cardiology Consultation',
                 type: 'report',
                 typeName: 'Medical Report',
-                doctor: 'Dr. Emily Chen',
+                doctor: 'Dr. Kavita Gupta',
                 doctorId: 3,
                 description: 'Follow-up consultation with cardiologist regarding heart health and medication management.',
                 fileName: 'cardiology_report.pdf'
@@ -684,7 +684,7 @@
                 title: 'Hypertension Medication',
                 type: 'prescription',
                 typeName: 'Prescription',
-                doctor: 'Dr. Sarah Johnson',
+                doctor: 'Dr. Rajesh Sharma',
                 doctorId: 1,
                 description: 'Prescription for Lisinopril 10mg, once daily for blood pressure management.',
                 fileName: 'bp_prescription.pdf'
@@ -753,9 +753,9 @@
 
             // Get doctor name from doctor ID
             let doctorName = '';
-            if (doctorId === '1') doctorName = 'Dr. Sarah Johnson';
-            else if (doctorId === '2') doctorName = 'Dr. Michael Wong';
-            else if (doctorId === '3') doctorName = 'Dr. Emily Chen';
+            if (doctorId === '1') doctorName = 'Dr. Rajesh Sharma';
+            else if (doctorId === '2') doctorName = 'Dr. Ananya Joshi';
+            else if (doctorId === '3') doctorName = 'Dr. Kavita Gupta';
 
             // Get type name from type
             let typeName = '';
