@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConnect - About Us</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a73e8;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #1a73e8;
+        }
+
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #1557b0;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: #333;
+            margin-right: 15px;
+        }
+
+        .btn-secondary:hover {
+            color: #1a73e8;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* About Us Hero Section */
+        .hero {
+            background-color: #1a73e8;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Our Story Section */
+        .our-story {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-heading h2 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .section-heading p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .story-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .story-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .story-text p {
+            margin-bottom: 20px;
+        }
+
+        .story-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .story-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Mission & Vision Section */
+        .mission-vision {
+            padding: 80px 0;
+            background-color: #f8f9fa;
+        }
+
+        .mission-vision-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .mission, .vision {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .mission h3, .vision h3 {
+            color: #1a73e8;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        /* Our Team Section */
+        .our-team {
+            padding: 80px 0;
+            background-color: white;
+        }
+
+        .team-members {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .team-member {
+            width: 250px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-member h4 {
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .team-member p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #f8f9fa;
+            padding: 50px 0 20px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 30px;
+        }
+
+        .footer-col h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #666;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #1a73e8;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: #666;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #1a73e8;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                z-index: 10;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 0;
+                text-align: center;
+                padding: 15px 0;
+                border-bottom: 1px solid #eee;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .auth-buttons {
+                display: none;
+            }
+
+            .auth-buttons.active {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn-secondary, .btn-primary {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 10px;
+                text-align: center;
+            }
+
+            .story-content, .mission-vision-container {
+                flex-direction: column;
+            }
+
+            .story-image {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">MedConnect</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="doctor-registration.html">Find a Doctor</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="about-us.html">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-secondary">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="hamburger">☰</div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>About MedConnect</h1>
+            <p>Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+        </div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section class="our-story">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Our Story</h2>
+                <p>How MedConnect began and our journey to transform healthcare access</p>
+            </div>
+            <div class="story-content">
+                <div class="story-text">
+                    <p>MedConnect was founded in 2022 with a simple yet powerful vision: to bridge the gap between patients and healthcare providers through technology. Our founders, experienced healthcare professionals and tech innovators, recognized the challenges many face when trying to access quality healthcare services.</p>
+                    <p>What started as a small team working out of a shared office space has grown into a comprehensive healthcare platform that serves thousands of patients and connects them with qualified medical professionals across multiple specialties.</p>
+                    <p>Today, MedConnect continues to innovate and expand its services, always keeping our core mission at heart: making healthcare accessible, efficient, and patient-centered for everyone.</p>
+                </div>
+                <div class="story-image">
+                    <img src="/api/placeholder/500/300" alt="MedConnect Team" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section class="mission-vision">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Our Mission & Vision</h2>
+                <p>What drives us and where we're headed</p>
+            </div>
+            <div class="mission-vision-container">
+                <div class="mission">
+                    <h3>Our Mission</h3>
+                    <p>To provide accessible, efficient, and personalized healthcare services by connecting patients with the right medical professionals through an intuitive digital platform.</p>
+                    <p>We strive to simplify the healthcare journey, reduce wait times, and improve patient outcomes through technology and innovation.</p>
+                </div>
+                <div class="vision">
+                    <h3>Our Vision</h3>
+                    <p>To become the leading healthcare platform that transforms how people access and experience medical care globally.</p>
+                    <p>We envision a future where everyone has immediate access to quality healthcare services, regardless of location or circumstances, and where the patient experience is seamless from booking to follow-up care.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Team Section -->
+    <section class="our-team">
+        <div class="container">
+            <div class="section-heading">
+                <h2>Meet Our Team</h2>
+                <p>The dedicated professionals behind MedConnect</p>
+            </div>
+            <div class="team-members">
+                <div class="team-member">
+                    <img src="/api/placeholder/150/150" alt="Aditya Singh" />
+                    <h4>Aditya Singh</h4>
+                    <p>Co-Founder & Lead Developer</p>
+                </div>
+                <div class="team-member">
+                    <img src="/api/placeholder/150/150" alt="Shlok Rana" />
+                    <h4>Shlok Rana</h4>
+                    <p>Co-Founder & UI/UX Designer</p>
+                </div>
+                <div class="team-member">
+                    <img src="/api/placeholder/150/150" alt="Prashant Singh" />
+                    <h4>Prashant Singh</h4>
+                    <p>Backend Developer</p>
+                </div>
+                <div class="team-member">
+                    <img src="/api/placeholder/150/150" alt="Devansh Singh Rawat" />
+                    <h4>Devansh Singh Rawat</h4>
+                    <p>Database Administrator</p>
+                </div>
+                <div class="team-member">
+                    <img src="/api/placeholder/150/150" alt="Priyanshu Sinha" />
+                    <h4>Priyanshu Sinha</h4>
+                    <p>Frontend Developer</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-col">
+                <h3>MedConnect</h3>
+                <p>Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Twitter">t</a>
+                    <a href="#" aria-label="Instagram">i</a>
+                    <a href="#" aria-label="LinkedIn">in</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="doctor-registration.html">Find a Doctor</a></li>
+                    <li><a href="#">Our Services</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>For Patients</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Book Appointment</a></li>
+                    <li><a href="#">Patient Dashboard</a></li>
+                    <li><a href="#">Medical Records</a></li>
+                    <li><a href="#">Prescriptions</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>For Doctors</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Join Our Network</a></li>
+                    <li><a href="#">Doctor Dashboard</a></li>
+                    <li><a href="#">Appointment Management</a></li>
+                    <li><a href="#">Resources</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2024 MedConnect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle Mobile Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const authButtons = document.querySelector('.auth-buttons');
+            
+            hamburger.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+                authButtons.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
