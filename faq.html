@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConnect - FAQs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-left: 30px;
+        }
+
+        .nav-menu li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu li a:hover {
+            color: #1a73e8;
+        }
+
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .login-btn {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            margin-right: 15px;
+        }
+
+        .signup-btn {
+            text-decoration: none;
+            background-color: #1a73e8;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .signup-btn:hover {
+            background-color: #1557b0;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        /* FAQ Section Styles */
+        .faq-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 32px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        .faq-question {
+            padding: 20px;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .faq-question:hover {
+            background-color: #f7f9fd;
+        }
+
+        .faq-question .icon {
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px;
+            border-top: 1px solid #eee;
+        }
+
+        .faq-item.active .icon {
+            transform: rotate(180deg);
+        }
+
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 10px 20px;
+            margin: 0 5px 10px;
+            border: 1px solid #1a73e8;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #1a73e8;
+            background-color: white;
+        }
+
+        .filter-tab:hover, .filter-tab.active {
+            background-color: #1a73e8;
+            color: white;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 2px 15px rgba(26, 115, 232, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: white;
+            padding: 40px 0;
+            border-top: 1px solid #e1e1e1;
+            color: #333;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 30px;
+        }
+
+        .footer-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #555;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #1a73e8;
+        }
+
+        .social-icons {
+            display: flex;
+            margin-top: 15px;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            margin-right: 15px;
+            color: #1a73e8;
+            font-size: 20px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid #e1e1e1;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                z-index: 100;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-menu li {
+                margin: 0;
+                padding: 15px 20px;
+                border-bottom: 1px solid #eee;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .footer-section {
+                flex: 0 0 50%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-section {
+                flex: 0 0 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <a href="index.html" class="logo">MedConnect</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="find-doctor.html">Find a Doctor</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Login</a>
+                <a href="signup.html" class="signup-btn">Sign Up</a>
+            </div>
+            <div class="menu-toggle">☰</div>
+        </header>
+    </div>
+
+    <section class="faq-section">
+        <div class="container">
+            <h1 class="section-title">Frequently Asked Questions</h1>
+
+            <div class="search-container">
+                <input type="text" class="search-input" id="faqSearch" placeholder="Search for questions...">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="general">General</button>
+                <button class="filter-tab" data-filter="appointments">Appointments</button>
+                <button class="filter-tab" data-filter="payment">Payment & Insurance</button>
+                <button class="filter-tab" data-filter="account">Account & Privacy</button>
+            </div>
+
+            <div class="faq-container">
+                <!-- General FAQs -->
+                <div class="faq-item" data-category="general">
+                    <div class="faq-question">
+                        <span>What is MedConnect?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>MedConnect is a comprehensive healthcare platform that connects patients with medical professionals. Our platform allows you to find doctors, book appointments, access your medical records, manage prescriptions, and more - all in one place.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="general">
+                    <div class="faq-question">
+                        <span>How do I get started with MedConnect?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Getting started is easy! Simply create an account by clicking the "Sign Up" button at the top of the page. Fill in your basic information, verify your email, and you'll have access to all our services. You can then complete your profile with medical history and preferences.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="general">
+                    <div class="faq-question">
+                        <span>What services does MedConnect offer?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>MedConnect offers a wide range of services including:</p>
+                        <ul style="padding-left: 20px; margin-top: 10px;">
+                            <li>Doctor search and appointment booking</li>
+                            <li>Online consultations via video calls</li>
+                            <li>Secure access to your medical records</li>
+                            <li>Prescription management and refill requests</li>
+                            <li>Health reminders and appointment notifications</li>
+                            <li>Secure messaging with your healthcare providers</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Appointment FAQs -->
+                <div class="faq-item" data-category="appointments">
+                    <div class="faq-question">
+                        <span>How do I book an appointment with a doctor?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To book an appointment:</p>
+                        <ol style="padding-left: 20px; margin-top: 10px;">
+                            <li>Log in to your MedConnect account</li>
+                            <li>Click on "Find a Doctor" in the navigation menu</li>
+                            <li>Search for doctors by specialty, location, or name</li>
+                            <li>Select a doctor from the results</li>
+                            <li>Choose an available date and time slot</li>
+                            <li>Confirm your appointment details</li>
+                            <li>You'll receive a confirmation email and notification</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="appointments">
+                    <div class="faq-question">
+                        <span>How do I cancel or reschedule an appointment?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To cancel or reschedule an appointment:</p>
+                        <ol style="padding-left: 20px; margin-top: 10px;">
+                            <li>Log in to your account</li>
+                            <li>Go to "Patient Dashboard"</li>
+                            <li>Navigate to "My Appointments"</li>
+                            <li>Find the appointment you want to modify</li>
+                            <li>Click on "Reschedule" or "Cancel"</li>
+                            <li>Follow the prompts to complete the process</li>
+                        </ol>
+                        <p>Please note that some providers may have cancellation policies that include fees for late cancellations (typically less than 24 hours notice).</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="appointments">
+                    <div class="faq-question">
+                        <span>How do online consultations work?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Online consultations allow you to meet with your doctor via secure video call. To participate:</p>
+                        <ol style="padding-left: 20px; margin-top: 10px;">
+                            <li>Book an online consultation appointment</li>
+                            <li>Ensure you have a stable internet connection</li>
+                            <li>Log in to your account 5-10 minutes before the appointment</li>
+                            <li>Go to "My Appointments"</li>
+                            <li>Click "Join Consultation" when it's time</li>
+                            <li>Allow camera and microphone access when prompted</li>
+                        </ol>
+                        <p>After the consultation, any prescriptions or follow-up instructions will be available in your patient dashboard.</p>
+                    </div>
+                </div>
+
+                <!-- Payment & Insurance FAQs -->
+                <div class="faq-item" data-category="payment">
+                    <div class="faq-question">
+                        <span>What payment methods are accepted?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>MedConnect accepts various payment methods including:</p>
+                        <ul style="padding-left: 20px; margin-top: 10px;">
+                            <li>Credit and debit cards (Visa, MasterCard, American Express)</li>
+                            <li>PayPal</li>
+                            <li>Bank transfers</li>
+                            <li>Insurance coverage (for participating providers)</li>
+                        </ul>
+                        <p>Payment information is securely stored and processed according to industry standards.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="payment">
+                    <div class="faq-question">
+                        <span>Does MedConnect accept insurance?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, many doctors on MedConnect accept insurance. During the doctor search process, you can filter for providers who accept your specific insurance plan. When booking an appointment, you'll be able to enter your insurance information.</p>
+                        <p>Please note that coverage varies by provider and plan. We recommend verifying coverage with your insurance company before your appointment.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="payment">
+                    <div class="faq-question">
+                        <span>How much do consultations cost?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Consultation fees vary depending on the doctor, specialty, consultation type (in-person vs. online), and whether you're using insurance. The exact fee will be displayed before you confirm your appointment booking.</p>
+                        <p>For insured patients, you'll typically be responsible for any applicable copay, coinsurance, or deductible as determined by your insurance plan.</p>
+                    </div>
+                </div>
+
+                <!-- Account & Privacy FAQs -->
+                <div class="faq-item" data-category="account">
+                    <div class="faq-question">
+                        <span>How is my medical information protected?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>MedConnect takes your privacy very seriously. We employ multiple layers of security measures to protect your personal and medical information:</p>
+                        <ul style="padding-left: 20px; margin-top: 10px;">
+                            <li>End-to-end encryption for all data transmission</li>
+                            <li>Secure, encrypted data storage</li>
+                            <li>Regular security audits and compliance checks</li>
+                            <li>Strict access controls for all medical information</li>
+                            <li>Compliance with healthcare privacy laws and regulations</li>
+                        </ul>
+                        <p>Only authorized healthcare providers involved in your care can access your medical information.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="account">
+                    <div class="faq-question">
+                        <span>How do I update my personal information?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To update your personal information:</p>
+                        <ol style="padding-left: 20px; margin-top: 10px;">
+                            <li>Log in to your MedConnect account</li>
+                            <li>Navigate to "Patient Dashboard"</li>
+                            <li>Select "My Profile" or "Account Settings"</li>
+                            <li>Click "Edit" next to the information you want to update</li>
+                            <li>Make your changes and click "Save"</li>
+                        </ol>
+                        <p>For certain information like your legal name or date of birth, you may need to contact customer support with appropriate documentation.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="account">
+                    <div class="faq-question">
+                        <span>Can I access my family members' medical records?</span>
+                        <span class="icon">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, MedConnect offers family accounts that allow authorized access to family members' medical information:</p>
+                        <ul style="padding-left: 20px; margin-top: 10px;">
+                            <li>For minor children: Parents or legal guardians can access their children's records by setting up family profiles</li>
+                            <li>For adult family members: Access requires explicit consent from the family member through our authorization process</li>
+                        </ul>
+                        <p>To set up family access, go to "Account Settings" and select "Family Access" to follow the verification process.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-section">
+                    <h3 class="footer-title">MedConnect</h3>
+                    <p>Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook">f</a>
+                        <a href="#" aria-label="Twitter">t</a>
+                        <a href="#" aria-label="Instagram">i</a>
+                        <a href="#" aria-label="LinkedIn">in</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="find-doctor.html">Find a Doctor</a></li>
+                        <li><a href="services.html">Our Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">For Patients</h3>
+                    <ul class="footer-links">
+                        <li><a href="book-appointment.html">Book Appointment</a></li>
+                        <li><a href="patient-dashboard.html">Patient Dashboard</a></li>
+                        <li><a href="medical-records.html">Medical Records</a></li>
+                        <li><a href="prescriptions.html">Prescriptions</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Contact Info</h3>
+                    <ul class="footer-links">
+                        <li>Email: info@medconnect.com</li>
+                        <li>Phone: +1 (555) 123-4567</li>
+                        <li>Address: 123 Health Street, Medical Center, CA 90210</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MedConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+        });
+
+        // FAQ accordion functionality
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            
+            question.addEventListener('click', () => {
+                // Close all other open items
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current item
+                item.classList.toggle('active');
+            });
+        });
+
+        // Filter functionality
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                filterTabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                const filter = tab.getAttribute('data-filter');
+                
+                // Show/hide FAQ items based on filter
+                faqItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('faqSearch');
+        
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            faqItems.forEach(item => {
+                const questionText = item.querySelector('.faq-question span').textContent.toLowerCase();
+                const answerText = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (questionText.includes(searchTerm) || answerText.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Reset filter tabs
+            filterTabs.forEach(tab => {
+                if (tab.getAttribute('data-filter') === 'all') {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
