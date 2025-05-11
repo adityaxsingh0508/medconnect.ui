@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor's Patient List - MedConnect</title>
+<style>
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Navigation */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+}
+
+.nav-menu li {
+  margin-left: 1.5rem;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: #444;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-menu a:hover {
+  color: #1976d2;
+}
+
+.btn {
+  background-color: #1976d2;
+  color: #fff;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: #1565c0;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: #1976d2;
+  border: 1px solid #1976d2;
+}
+
+.btn-outline:hover {
+  background-color: #e3f2fd;
+}
+
+.hamburger {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Main content */
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+h1 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #1976d2;
+  padding-bottom: 0.5rem;
+}
+
+/* Dashboard stats */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.stat-card h3 {
+  color: #1976d2;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-card p {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Patient list */
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.list-header h2 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  max-width: 350px;
+}
+
+.search-bar input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  outline: none;
+}
+
+.search-bar button {
+  padding: 0.5rem 1rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+.filter-options {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.filter-options select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+}
+
+/* Patient table */
+.patients-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.patients-table th,
+.patients-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.patients-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  color: #555;
+}
+
+.patients-table tr:last-child td {
+  border-bottom: none;
+}
+
+.patients-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-btn {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.view-btn {
+  background-color: #2196f3;
+  color: white;
+}
+
+.message-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.action-btn:hover {
+  opacity: 0.9;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: white;
+}
+
+.badge-active {
+  background-color: #4caf50;
+}
+
+.badge-pending {
+  background-color: #ff9800;
+}
+
+.badge-new {
+  background-color: #2196f3;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination button.active {
+  background-color: #1976d2;
+  color: #fff;
+  border-color: #1976d2;
+}
+
+.pagination button:hover:not(.active) {
+  background-color: #f5f5f5;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #888;
+}
+
+.patient-info {
+  margin-bottom: 1.5rem;
+}
+
+.patient-info h3 {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.info-item {
+  margin-bottom: 0.5rem;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.message-form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  resize: vertical;
+  min-height: 120px;
+  margin-bottom: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hamburger {
+    display: block;
+    position: absolute;
+    right: 2rem;
+    top: 1.5rem;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+    display: none;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-menu li {
+    margin: 0.5rem 0;
+  }
+
+  .stats-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .list-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-bar {
+    width: 100%;
+    max-width: none;
+    margin-top: 1rem;
+  }
+
+  .patients-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar">
+  <a href="index.html" class="logo">MedConnect</a>
+  <div class="hamburger">☰</div>
+  <ul class="nav-menu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="doctor-patients.html" class="active">My Patients</a></li>
+    <li><a href="appointments.html">Appointments</a></li>
+    <li><a href="messages.html">Messages</a></li>
+    <li><a href="profile.html">Profile</a></li>
+    <li><a href="index.html" class="btn">Logout</a></li>
+  </ul>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+  <h1>Patient Management Dashboard</h1>
+
+  <!-- Stats Cards -->
+  <div class="stats-cards">
+    <div class="stat-card">
+      <h3 id="total-patients">0</h3>
+      <p>Total Patients</p>
+    </div>
+    <div class="stat-card">
+      <h3 id="active-patients">0</h3>
+      <p>Active Patients</p>
+    </div>
+    <div class="stat-card">
+      <h3 id="new-patients">0</h3>
+      <p>New This Month</p>
+    </div>
+    <div class="stat-card">
+      <h3 id="pending-appointments">0</h3>
+      <p>Pending Appointments</p>
+    </div>
+  </div>
+
+  <!-- Patient List Section -->
+  <div class="list-header">
+    <h2>Patient List</h2>
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search patients...">
+      <button id="search-btn">Search</button>
+    </div>
+  </div>
+
+  <!-- Filter Options -->
+  <div class="filter-options">
+    <select id="status-filter">
+      <option value="all">All Status</option>
+      <option value="active">Active</option>
+      <option value="pending">Pending</option>
+      <option value="new">New</option>
+    </select>
+    <select id="sort-by">
+      <option value="name-asc">Name (A-Z)</option>
+      <option value="name-desc">Name (Z-A)</option>
+      <option value="recent">Most Recent</option>
+      <option value="oldest">Oldest First</option>
+    </select>
+  </div>
+
+  <!-- Patient Table -->
+  <table class="patients-table">
+    <thead>
+      <tr>
+        <th>Patient Name</th>
+        <th>Patient ID</th>
+        <th>Age</th>
+        <th>Status</th>
+        <th>Last Visit</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="patient-list-body">
+      <!-- Patient data will be populated via JavaScript -->
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <div class="pagination" id="pagination">
+    <!-- Pagination will be populated via JavaScript -->
+  </div>
+</div>
+
+<!-- Patient View Modal -->
+<div class="modal" id="patient-view-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Patient Information</h2>
+      <button class="close-modal">&times;</button>
+    </div>
+    <div class="patient-info">
+      <h3>Personal Details</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Full Name:</span>
+          <span id="modal-patient-name"></span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Patient ID:</span>
+          <span id="modal-patient-id"></span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Age:</span>
+          <span id="modal-patient-age"></span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Gender:</span>
+          <span id="modal-patient-gender"></span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Date of Birth:</span>
+          <span id="modal-patient-dob"></span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Blood Type:</span>
+          <span id="modal-patient-blood"></span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Phone:</span>
+          <span id="modal-patient-phone"></span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Email:</span>
+          <span id="modal-patient-email"></span>
+        </div>
+      </div>
+    </div>
+    <div class="patient-info">
+      <h3>Medical Information</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Last Visit:</span>
+          <span id="modal-last-visit"></span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Next Appointment:</span>
+          <span id="modal-next-appointment"></span>
+        </div>
+      </div>
+      <div class="info-item" style="margin-top: 1rem;">
+        <span class="info-label">Current Medications:</span>
+        <p id="modal-medications"></p>
+      </div>
+      <div class="info-item" style="margin-top: 1rem;">
+        <span class="info-label">Allergies:</span>
+        <p id="modal-allergies"></p>
+      </div>
+      <div class="info-item" style="margin-top: 1rem;">
+        <span class="info-label">Medical History:</span>
+        <p id="modal-medical-history"></p>
+      </div>
+    </div>
+    <div class="action-buttons" style="justify-content: center; margin-top: 1.5rem;">
+      <button class="btn" id="view-records-btn">View Medical Records</button>
+      <button class="btn btn-outline" id="schedule-btn">Schedule Appointment</button>
+    </div>
+  </div>
+</div>
+
+<!-- Message Modal -->
+<div class="modal" id="message-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Send Message to <span id="message-patient-name"></span></h2>
+      <button class="close-modal">&times;</button>
+    </div>
+    <div class="message-form">
+      <textarea id="message-text" placeholder="Write your message here..."></textarea>
+      <div class="action-buttons" style="justify-content: flex-end;">
+        <button class="btn btn-outline" id="cancel-message">Cancel</button>
+        <button class="btn" id="send-message">Send Message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Sample patient data (in a real app, this would come from a database)
+const patientsData = [
+  {
+    id: "PT10001",
+    name: "John Smith",
+    age: 45,
+    gender: "Male",
+    dob: "1980-05-15",
+    bloodType: "A+",
+    phone: "+91 98765 43210",
+    email: "john.smith@example.com",
+    status: "active",
+    lastVisit: "2025-05-05",
+    nextAppointment: "2025-05-20",
+    medications: "Lisinopril 10mg daily, Metformin 500mg twice daily",
+    allergies: "Penicillin, Sulfa drugs",
+    medicalHistory: "Type 2 Diabetes diagnosed in 2020, Hypertension since 2018"
+  },
+  {
+    id: "PT10002",
+    name: "Emily Johnson",
+    age: 32,
+    gender: "Female",
+    dob: "1993-08-27",
+    bloodType: "O-",
+    phone: "+91 87654 32109",
+    email: "emily.j@example.com",
+    status: "active",
+    lastVisit: "2025-05-08",
+    nextAppointment: "2025-06-10",
+    medications: "Levothyroxine 50mcg daily",
+    allergies: "None",
+    medicalHistory: "Hypothyroidism diagnosed in 2021"
+  },
+  {
+    id: "PT10003",
+    name: "Rajesh Kumar",
+    age: 58,
+    gender: "Male",
+    dob: "1967-03-12",
+    bloodType: "B+",
+    phone: "+91 76543 21098",
+    email: "rajesh.k@example.com",
+    status: "pending",
+    lastVisit: "2025-04-20",
+    nextAppointment: "2025-05-15",
+    medications: "Atorvastatin 20mg daily, Aspirin 81mg daily",
+    allergies: "Shellfish",
+    medicalHistory: "Coronary artery disease, Hyperlipidemia"
+  },
+  {
+    id: "PT10004",
+    name: "Priya Sharma",
+    age: 29,
+    gender: "Female",
+    dob: "1996-11-05",
+    bloodType: "AB+",
+    phone: "+91 65432 10987",
+    email: "priya.s@example.com",
+    status: "new",
+    lastVisit: "2025-05-10",
+    nextAppointment: "2025-05-25",
+    medications: "None",
+    allergies: "Dust, Pollen",
+    medicalHistory: "Allergic rhinitis"
+  },
+  {
+    id: "PT10005",
+    name: "Michael Wong",
+    age: 41,
+    gender: "Male",
+    dob: "1984-07-19",
+    bloodType: "A-",
+    phone: "+91 54321 09876",
+    email: "michael.w@example.com",
+    status: "active",
+    lastVisit: "2025-04-30",
+    nextAppointment: "2025-05-30",
+    medications: "Fluoxetine 20mg daily",
+    allergies: "None",
+    medicalHistory: "Generalized anxiety disorder"
+  },
+  {
+    id: "PT10006",
+    name: "Ananya Patel",
+    age: 35,
+    gender: "Female",
+    dob: "1990-02-28",
+    bloodType: "O+",
+    phone: "+91 43210 98765",
+    email: "ananya.p@example.com",
+    status: "active",
+    lastVisit: "2025-05-07",
+    nextAppointment: "2025-06-05",
+    medications: "Prenatal vitamins",
+    allergies: "Latex",
+    medicalHistory: "Pregnant (2nd trimester)"
+  },
+  {
+    id: "PT10007",
+    name: "David Chen",
+    age: 62,
+    gender: "Male",
+    dob: "1963-12-10",
+    bloodType: "B-",
+    phone: "+91 32109 87654",
+    email: "david.c@example.com",
+    status: "pending",
+    lastVisit: "2025-04-15",
+    nextAppointment: "2025-05-18",
+    medications: "Metoprolol 50mg twice daily, Furosemide 40mg daily",
+    allergies: "Sulfa drugs",
+    medicalHistory: "Congestive heart failure, Hypertension"
+  },
+  {
+    id: "PT10008",
+    name: "Sanjana Reddy",
+    age: 27,
+    gender: "Female",
+    dob: "1998-06-21",
+    bloodType: "A+",
+    phone: "+91 21098 76543",
+    email: "sanjana.r@example.com",
+    status: "new",
+    lastVisit: "2025-05-09",
+    nextAppointment: "2025-05-24",
+    medications: "Isotretinoin 20mg daily",
+    allergies: "None",
+    medicalHistory: "Acne vulgaris"
+  }
+];
+
+// DOM elements
+const patientListBody = document.getElementById('patient-list-body');
+const totalPatientsEl = document.getElementById('total-patients');
+const activePatientsEl = document.getElementById('active-patients');
+const newPatientsEl = document.getElementById('new-patients');
+const pendingAppointmentsEl = document.getElementById('pending-appointments');
+const searchInput = document.getElementById('search-input');
+const searchBtn = document.getElementById('search-btn');
+const statusFilter = document.getElementById('status-filter');
+const sortBy = document.getElementById('sort-by');
+const pagination = document.getElementById('pagination');
+const patientViewModal = document.getElementById('patient-view-modal');
+const messageModal = document.getElementById('message-modal');
+const closeModalButtons = document.querySelectorAll('.close-modal');
+const hamburgerBtn = document.querySelector('.hamburger');
+const navMenu = document.querySelector('.nav-menu');
+
+// Variables for pagination
+const patientsPerPage = 5;
+let currentPage = 1;
+let filteredPatients = [...patientsData];
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    // Update stats
+    updateStats();
+    
+    // Apply initial filters and render patients
+    applyFiltersAndRender();
+    
+    // Set up event listeners
+    setupEventListeners();
+    
+    // Toggle mobile menu
+    hamburgerBtn.addEventListener('click', function() {
+      navMenu.classList.toggle('active');
+      this.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+    });
+  } catch (error) {
+    console.error('Error initializing application:', error);
+    alert('An error occurred while loading the application. Please try again.');
+  }
+});
+
+// Update dashboard stats
+function updateStats() {
+  totalPatientsEl.textContent = patientsData.length;
+  activePatientsEl.textContent = patientsData.filter(p => p.status === 'active').length;
+  newPatientsEl.textContent = patientsData.filter(p => p.status === 'new').length;
+  
+  // Just a sample calculation for pending appointments
+  const pendingAppointments = Math.floor(patientsData.length * 0.6);
+  pendingAppointmentsEl.textContent = pendingAppointments;
+}
+
+// Set up event listeners
+function setupEventListeners() {
+  searchBtn.addEventListener('click', function() {
+    const searchTerm = searchInput.value.trim();
+    if (searchTerm.length > 50) {
+      alert('Search term too long. Maximum 50 characters allowed.');
+      return;
+    }
+    applyFiltersAndRender();
+  });
+  
+  statusFilter.addEventListener('change', applyFiltersAndRender);
+  sortBy.addEventListener('change', applyFiltersAndRender);
+  
+  // Enter key in search input
+  searchInput.addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+      applyFiltersAndRender();
+    }
+  });
+  
+  // Close modals
+  closeModalButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      patientViewModal.style.display = 'none';
+      messageModal.style.display = 'none';
+    });
+  });
+  
+  // When clicking outside the modal content, close the modal
+  window.addEventListener('click', function(event) {
+    if (event.target === patientViewModal) {
+      patientViewModal.style.display = 'none';
+    }
+    if (event.target === messageModal) {
+      messageModal.style.display = 'none';
+    }
+  });
+  
+  // Set up cancel message button
+  document.getElementById('cancel-message').addEventListener('click', function() {
+    messageModal.style.display = 'none';
+  });
+  
+  // Set up send message button
+  document.getElementById('send-message').addEventListener('click', function() {
+    const messageText = document.getElementById('message-text').value;
+    const patientName = document.getElementById('message-patient-name').textContent;
+    
+    if (messageText.trim() !== '') {
+      alert(`Message sent to ${patientName}:\n\n${messageText}`);
+      messageModal.style.display = 'none';
+      document.getElementById('message-text').value = '';
+    } else {
+      alert('Please enter a message before sending.');
+    }
+  });
+  
+  // View records button in patient modal
+  document.getElementById('view-records-btn').addEventListener('click', function() {
+    const patientId = document.getElementById('modal-patient-id').textContent;
+    alert(`Redirecting to medical records for patient ${patientId}`);
+    // In a real app, this would redirect to the records page
+  });
+  
+  // Schedule appointment button in patient modal
+  document.getElementById('schedule-btn').addEventListener('click', function() {
+    const patientName = document.getElementById('modal-patient-name').textContent;
+    alert(`Opening appointment scheduler for ${patientName}`);
+    // In a real app, this would open an appointment scheduling interface
+  });
+}
+
+// Apply filters and render patients
+function applyFiltersAndRender() {
+  const searchTerm = searchInput.value.toLowerCase();
+  const selectedStatus = statusFilter.value;
+  const selectedSort = sortBy.value;
+  
+  // Filter patients
+  filteredPatients = patientsData.filter(patient => {
+    // Apply search filter
+    const matchesSearch = 
+      patient.name.toLowerCase().includes(searchTerm) ||
+      patient.id.toLowerCase().includes(searchTerm) ||
+      patient.email.toLowerCase().includes(searchTerm);
+    
+    // Apply status filter
+    const matchesStatus = selectedStatus === 'all' || patient.status === selectedStatus;
+    
+    return matchesSearch && matchesStatus;
+  });
+  
+  // Sort patients
+  filteredPatients.sort((a, b) => {
+    switch(selectedSort) {
+      case 'name-asc':
+        return a.name.localeCompare(b.name);
+      case 'name-desc':
+        return b.name.localeCompare(a.name);
+      case 'recent':
+        return new Date(b.lastVisit) - new Date(a.lastVisit);
+      case 'oldest':
+        return new Date(a.lastVisit) - new Date(b.lastVisit);
+      default:
+        return 0;
+    }
+  });
+  
+  // Reset to first page when filters change
+  currentPage = 1;
+  
+  // Render patients and pagination
+  renderPatients();
+  renderPagination();
+}
+
+// Render patients
+function renderPatients() {
+  // Clear the table
+  patientListBody.innerHTML = '';
+  
+  // Calculate pagination
+  const startIndex = (currentPage - 1) * patientsPerPage;
+  const endIndex = Math.min(startIndex + patientsPerPage, filteredPatients.length);
+  const patientsToShow = filteredPatients.slice(startIndex, endIndex);
+  
+  // If no patients match filters
+  if (patientsToShow.length === 0) {
+    const noResultsRow = document.createElement('tr');
+    noResultsRow.innerHTML = `
+      <td colspan="6" style="text-align: center; padding: 2rem;">
+        No patients match your criteria. Try adjusting your filters.
+      </td>
+    `;
+    patientListBody.appendChild(noResultsRow);
+    return;
+  }
+  
+  // Render each patient row
+  patientsToShow.forEach(patient => {
+    const row = document.createElement('tr');
+    
+    // Define status badge class
+    let statusClass = '';
+    if (patient.status === 'active') statusClass = 'badge-active';
+    else if (patient.status === 'pending') statusClass = 'badge-pending';
+    else if (patient.status === 'new') statusClass = 'badge-new';
+    
+    row.innerHTML = `
+      <td>${patient.name}</td>
+      <td>${patient.id}</td>
+      <td>${patient.age}</td>
+      <td><span class="badge ${statusClass}">${patient.status}</span></td>
+      <td>${formatDate(patient.lastVisit)}</td>
+      <td class="action-buttons">
+        <button class="action-btn view-btn" data-id="${patient.id}">View</button>
+        <button class="action-btn message-btn" data-id="${patient.id}" data-name="${patient.name}">Message</button>
+      </td>
+    `;
+    
+    patientListBody.appendChild(row);
+  });
+  
+  // Add event listeners to buttons
+  addActionButtonListeners();
+}
+
+// Format date for display (YYYY-MM-DD to DD/MM/YYYY)
+function formatDate(dateString) {
+  if (!dateString) return 'N/A';
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return 'Invalid date';
+  
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+// Add event listeners to action buttons
+function addActionButtonListeners() {
+  // View patient buttons
+  document.querySelectorAll('.view-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      const patientId = this.getAttribute('data-id');
+      const patient = patientsData.find(p => p.id === patientId);
+      
+      if (patient) {
+        // Populate modal with patient data
+        document.getElementById('modal-patient-name').textContent = patient.name;
+        document.getElementById('modal-patient-id').textContent = patient.id;
+        document.getElementById('modal-patient-age').textContent = patient.age;
+        document.getElementById('modal-patient-gender').textContent = patient.gender;
+        document.getElementById('modal-patient-dob').textContent = formatDate(patient.dob);
+        document.getElementById('modal-patient-blood').textContent = patient.bloodType;
+        document.getElementById('modal-patient-phone').textContent = patient.phone;
+        document.getElementById('modal-patient-email').textContent = patient.email;
+        document.getElementById('modal-last-visit').textContent = formatDate(patient.lastVisit);
+        document.getElementById('modal-next-appointment').textContent = formatDate(patient.nextAppointment);
+        document.getElementById('modal-medications').textContent = patient.medications || 'None';
+        document.getElementById('modal-allergies').textContent = patient.allergies || 'None known';
+        document.getElementById('modal-medical-history').textContent = patient.medicalHistory || 'No significant history';
+        
+        // Display the modal
+        patientViewModal.style.display = 'flex';
+      }
+    });
+  });
+  
+  // Message patient buttons
+  document.querySelectorAll('.message-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      const patientName = this.getAttribute('data-name');
+      document.getElementById('message-patient-name').textContent = patientName;
+      document.getElementById('message-text').value = '';
+      messageModal.style.display = 'flex';
+    });
+  });
+}
+
+// Render pagination controls
+function renderPagination() {
+  // Clear pagination
+  pagination.innerHTML = '';
+  
+  // Calculate number of pages
+  const numPages = Math.ceil(filteredPatients.length / patientsPerPage);
+  
+  // If only one page, don't show pagination
+  if (numPages <= 1) return;
+  
+  // Previous button
+  const prevBtn = document.createElement('button');
+  prevBtn.innerHTML = '&laquo;';
+  prevBtn.disabled = currentPage === 1;
+  prevBtn.addEventListener('click', function() {
+    if (currentPage > 1) {
+      currentPage--;
+      renderPatients();
+      renderPagination();
+    }
+  });
+  pagination.appendChild(prevBtn);
+  
+  // Page buttons (show up to 5 pages)
+  const maxVisiblePages = 5;
+  let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+  let endPage = Math.min(numPages, startPage + maxVisiblePages - 1);
+  
+  // Adjust start page if we're near the end
+  if (endPage === numPages) {
+    startPage = Math.max(1, numPages - maxVisiblePages + 1);
+  }
+  
+  for (let i = startPage; i <= endPage; i++) {
+    const pageBtn = document.createElement('button');
+    pageBtn.textContent = i;
+    pageBtn.classList.toggle('active', i === currentPage);
+    pageBtn.addEventListener('click', function() {
+      currentPage = i;
+      renderPatients();
+      renderPagination();
+    });
+    pagination.appendChild(pageBtn);
+  }
+  
+  // Next button
+  const nextBtn = document.createElement('button');
+  nextBtn.innerHTML = '&raquo;';
+  nextBtn.disabled = currentPage === numPages;
+  nextBtn.addEventListener('click', function() {
+    if (currentPage < numPages) {
+      currentPage++;
+      renderPatients();
+      renderPagination();
+    }
+  });
+  pagination.appendChild(nextBtn);
+}
+</script>
+</body>
+</html>
