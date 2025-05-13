@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Profile - MedConnect</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1a73e8;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            margin-left: 1.5rem;
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #1a73e8;
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            background-color: #1a73e8;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #1557b5;
+        }
+
+        .btn.secondary {
+            background-color: transparent;
+            border: 1px solid #1a73e8;
+            color: #1a73e8;
+        }
+
+        .btn.secondary:hover {
+            background-color: #f0f7ff;
+        }
+
+        /* Container */
+        .container {
+            width: 85%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Doctor Profile */
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-title h1 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-title p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+        }
+
+        .profile-sidebar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #f0f0f0;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1.5rem;
+            border: 3px solid #eee;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-upload-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: #1a73e8;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            border: 2px solid white;
+        }
+
+        .verification-status {
+            background-color: #e6f4ea;
+            color: #137333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .verification-status i {
+            margin-right: 5px;
+        }
+
+        .profile-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .profile-rating i {
+            color: gold;
+            margin-right: 2px;
+        }
+
+        .rating-value {
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            margin-bottom: 1rem;
+            color: #333;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #1a73e8;
+            outline: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .form-actions button {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-save {
+            background-color: #1a73e8;
+            color: white;
+            margin-left: 1rem;
+        }
+
+        .btn-save:hover {
+            background-color: #1557b5;
+        }
+
+        .btn-cancel {
+            background-color: #f1f3f4;
+            color: #5f6368;
+        }
+
+        .btn-cancel:hover {
+            background-color: #e8eaeb;
+        }
+
+        /* Features grid */
+        .specialties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .specialty-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .specialty-item input {
+            margin-right: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #fff;
+            padding: 2rem 5%;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-info {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-info h3 {
+            color: #1a73e8;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-info p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-icons a {
+            margin-right: 1rem;
+            color: #555;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+
+        .quick-links {
+            margin-bottom: 1.5rem;
+        }
+
+        .quick-links h4 {
+            margin-bottom: 1rem;
+            color: #444;
+        }
+
+        .quick-links ul {
+            list-style: none;
+        }
+
+        .quick-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .quick-links a {
+            color: #555;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .quick-links a:hover {
+            color: #1a73e8;
+        }
+
+        .footer-bottom {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            text-align: center;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-sidebar {
+                margin-bottom: 2rem;
+            }
+
+            .profile-image {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 3%;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                padding: 1rem 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                z-index: 100;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links a {
+                margin: 0.5rem 0;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .container {
+                width: 95%;
+                padding: 1rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">MedConnect</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="find-doctor.html">Find a Doctor</a>
+            <a href="services.html">Services</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html" class="btn">Sign Up</a>
+        </div>
+        <button class="menu-btn">☰</button>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="profile-header">
+            <div class="profile-title">
+                <h1>Doctor Profile</h1>
+                <p>Manage your professional information and credentials</p>
+            </div>
+        </div>
+
+        <div class="profile-grid">
+            <div class="profile-sidebar">
+                <div class="profile-image">
+                    <img id="profile-preview" src="/api/placeholder/200/200" alt="Doctor Profile">
+                    <label for="profile-upload" class="image-upload-btn">+</label>
+                    <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+                </div>
+                <div class="verification-status">
+                    <i>✓</i> Verified Doctor
+                </div>
+                <div class="profile-rating">
+                    <i>★</i><i>★</i><i>★</i><i>★</i><i>★</i>
+                    <span class="rating-value">4.8</span>
+                </div>
+                <p>Based on 124 patient reviews</p>
+            </div>
+
+            <div class="profile-content">
+                <form id="doctor-profile-form">
+                    <div class="form-section">
+                        <h3>Personal Information</h3>
+                        <div class="form-group">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" id="fullname" name="fullname" placeholder="Dr. John Doe">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" name="email" placeholder="doctor@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" placeholder="+1 (555) 123-4567">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bio">Professional Bio</label>
+                            <textarea id="bio" name="bio" rows="4" placeholder="Write a brief description about your professional background and expertise..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Professional Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="specialization">Primary Specialization</label>
+                                <select id="specialization" name="specialization">
+                                    <option value="">Select Specialization</option>
+                                    <option value="cardiology">Cardiology</option>
+                                    <option value="dermatology">Dermatology</option>
+                                    <option value="neurology">Neurology</option>
+                                    <option value="orthopedics">Orthopedics</option>
+                                    <option value="pediatrics">Pediatrics</option>
+                                    <option value="psychiatry">Psychiatry</option>
+                                    <option value="gynecology">Gynecology</option>
+                                    <option value="ophthalmology">Ophthalmology</option>
+                                    <option value="ent">ENT</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="experience">Years of Experience</label>
+                                <input type="number" id="experience" name="experience" min="0" placeholder="e.g., 10">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="medical-license">Medical License Number</label>
+                            <input type="text" id="medical-license" name="medical-license" placeholder="e.g., ML123456789">
+                        </div>
+                        <div class="form-group">
+                            <label for="education">Education & Qualifications</label>
+                            <textarea id="education" name="education" rows="3" placeholder="List your degrees, certifications, and educational background..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Practice Information</h3>
+                        <div class="form-group">
+                            <label for="hospital">Hospital/Clinic Name</label>
+                            <input type="text" id="hospital" name="hospital" placeholder="e.g., City General Hospital">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Practice Address</label>
+                            <textarea id="address" name="address" rows="2" placeholder="Full address of your practice location..."></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" placeholder="e.g., New York">
+                            </div>
+                            <div class="form-group">
+                                <label for="zipcode">Zip Code</label>
+                                <input type="text" id="zipcode" name="zipcode" placeholder="e.g., 10001">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Specialties & Services</h3>
+                        <p>Select all that apply to your practice:</p>
+                        <div class="specialties-grid">
+                            <div class="specialty-item">
+                                <input type="checkbox" id="general-checkup" name="services[]" value="general-checkup">
+                                <label for="general-checkup">General Checkup</label>
+                            </div>
+                            <div class="specialty-item">
+                                <input type="checkbox" id="consultation" name="services[]" value="consultation">
+                                <label for="consultation">Consultation</label>
+                            </div>
+                            <div class="specialty-item">
+                                <input type="checkbox" id="vaccination" name="services[]" value="vaccination">
+                                <label for="vaccination">Vaccination</label>
+                            </div>
+                            <div class="specialty-item">
+                                <input type="checkbox" id="surgery" name="services[]" value="surgery">
+                                <label for="surgery">Surgery</label>
+                            </div>
+                            <div class="specialty-item">
+                                <input type="checkbox" id="emergency" name="services[]" value="emergency">
+                                <label for="emergency">Emergency Care</label>
+                            </div>
+                            <div class="specialty-item">
+                                <input type="checkbox" id="lab-tests" name="services[]" value="lab-tests">
+                                <label for="lab-tests">Lab Tests</label>
+                            </div>
+                            <div class="specialty-item">
+                                <input type="checkbox" id="telemedicine" name="services[]" value="telemedicine">
+                                <label for="telemedicine">Telemedicine</label>
+                            </div>
+                            <div class="specialty-item">
+                                <input type="checkbox" id="preventive" name="services[]" value="preventive">
+                                <label for="preventive">Preventive Care</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Appointment Settings</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="consultation-fee">Consultation Fee ($)</label>
+                                <input type="number" id="consultation-fee" name="consultation-fee" min="0" placeholder="e.g., 100">
+                            </div>
+                            <div class="form-group">
+                                <label for="appointment-duration">Appointment Duration (minutes)</label>
+                                <select id="appointment-duration" name="appointment-duration">
+                                    <option value="15">15 minutes</option>
+                                    <option value="30" selected>30 minutes</option>
+                                    <option value="45">45 minutes</option>
+                                    <option value="60">60 minutes</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel">Cancel</button>
+                        <button type="submit" class="btn-save">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>MedConnect</h3>
+                <p>Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook">f</a>
+                    <a href="#" aria-label="Twitter">t</a>
+                    <a href="#" aria-label="Instagram">i</a>
+                    <a href="#" aria-label="LinkedIn">in</a>
+                </div>
+            </div>
+            
+            <div class="footer-links-container">
+                <div class="quick-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="find-doctor.html">Find a Doctor</a></li>
+                        <li><a href="services.html">Our Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 MedConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        document.querySelector('.menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Profile image preview functionality
+        document.getElementById('profile-upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-preview').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form submission handler
+        document.getElementById('doctor-profile-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const profileData = {};
+            
+            // Convert FormData to object
+            for (let [key, value] of formData.entries()) {
+                if (key === 'services[]') {
+                    if (!profileData[key]) {
+                        profileData[key] = [];
+                    }
+                    profileData[key].push(value);
+                } else {
+                    profileData[key] = value;
+                }
+            }
+            
+            // Here you would typically send the data to your server
+            console.log('Profile data to be saved:', profileData);
+            
+            // Show success message
+            alert('Profile updated successfully!');
+        });
+
+        // Cancel button handler
+        document.querySelector('.btn-cancel').addEventListener('click', function() {
+            if (confirm('Are you sure you want to discard your changes?')) {
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Load any existing profile data (mock data for demonstration)
+        window.addEventListener('DOMContentLoaded', function() {
+            // This would typically be a fetch from your API
+            const mockData = {
+                'fullname': 'Dr. Sarah Johnson',
+                'email': 'sarah.johnson@medconnect.com',
+                'phone': '+1 (555) 987-6543',
+                'bio': 'Board-certified cardiologist with over 15 years of experience specializing in preventive cardiology and heart disease management.',
+                'specialization': 'cardiology',
+                'experience': '15',
+                'medical-license': 'ML987654321',
+                'education': 'MD from Johns Hopkins University\nCardiology Fellowship at Mayo Clinic\nBoard Certified in Cardiovascular Disease',
+                'hospital': 'City Heart Center',
+                'address': '123 Medical Plaza, Suite 400',
+                'city': 'Chicago',
+                'zipcode': '60601',
+                'consultation-fee': '150',
+                'appointment-duration': '30'
+            };
+            
+            // Populate form fields with mock data
+            for (const [key, value] of Object.entries(mockData)) {
+                const field = document.getElementById(key);
+                if (field) {
+                    field.value = value;
+                }
+            }
+            
+            // Check some services (mockup)
+            const services = ['consultation', 'general-checkup', 'telemedicine'];
+            services.forEach(service => {
+                const checkbox = document.getElementById(service);
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
