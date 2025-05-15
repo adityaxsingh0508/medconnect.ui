@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConnect - Doctor Schedule</title>
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: #1a73e8;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #1a73e8;
+        }
+
+        .logout-btn {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #1557b0;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            margin-top: 20px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-right: 20px;
+            height: calc(100vh - 100px);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 10px;
+            color: #555;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: #f0f4ff;
+            color: #1a73e8;
+        }
+
+        .sidebar-menu a.active {
+            background-color: #e8f0fe;
+            color: #1a73e8;
+            font-weight: 500;
+        }
+
+        .register-btn {
+            display: block;
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .register-btn:hover {
+            background-color: #3d8b40;
+        }
+
+        /* Schedule Content */
+        .content {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-title {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .doctor-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .doctor-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #1a73e8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Calendar Controls */
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-controls .date-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .current-month {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .nav-btn {
+            background-color: #f0f4ff;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .nav-btn:hover {
+            background-color: #e0e7ff;
+        }
+
+        .view-selector {
+            display: flex;
+            background-color: #f0f4ff;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .view-btn {
+            border: none;
+            background-color: transparent;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-btn.active {
+            background-color: #1a73e8;
+            color: white;
+        }
+
+        /* Calendar */
+        .calendar {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .calendar-header .day {
+            padding: 12px;
+            text-align: center;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+        }
+
+        .calendar-day {
+            border: 1px solid #e0e0e0;
+            padding: 8px;
+            min-height: 100px;
+            position: relative;
+        }
+
+        .day-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            font-weight: 500;
+            border-radius: 50%;
+        }
+
+        .today .day-number {
+            background-color: #1a73e8;
+            color: white;
+        }
+
+        .other-month {
+            background-color: #f9f9f9;
+            color: #aaa;
+        }
+
+        .appointment {
+            margin-top: 5px;
+            padding: 4px 6px;
+            background-color: #e3f2fd;
+            border-left: 3px solid #1a73e8;
+            border-radius: 2px;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .appointment:hover {
+            background-color: #d0e8fd;
+        }
+
+        .appointment-count {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background-color: #f0f4ff;
+            color: #1a73e8;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 11px;
+        }
+
+        /* Weekly View */
+        .weekly-view {
+            display: none;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .time-column {
+            display: grid;
+            grid-template-columns: 60px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .time-header {
+            padding: 12px;
+            text-align: center;
+            font-weight: 500;
+            color: #555;
+            background-color: #f8f9fa;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .time-row {
+            display: grid;
+            grid-template-columns: 60px 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            border-bottom: 1px solid #e0e0e0;
+            height: 60px;
+        }
+
+        .time-slot {
+            padding: 5px;
+            border-right: 1px solid #e0e0e0;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .time-label {
+            text-align: center;
+            font-size: 12px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .weekly-appointment {
+            background-color: #e3f2fd;
+            border-left: 3px solid #1a73e8;
+            border-radius: 2px;
+            padding: 2px 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+            cursor: pointer;
+        }
+
+        /* Add New Appointment Button */
+        .add-appointment {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .add-appointment:hover {
+            background-color: #1557b0;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #555;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .modal-footer {
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-primary {
+            background-color: #1a73e8;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
+        .btn-primary:hover {
+            background-color: #1557b0;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+                height: auto;
+            }
+
+            .calendar-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .calendar-header {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .calendar-header .day:nth-child(n+4) {
+                display: none;
+            }
+
+            .calendar-grid .calendar-day:nth-child(n+22) {
+                display: none;
+            }
+
+            .weekly-view .time-column,
+            .weekly-view .time-row {
+                grid-template-columns: 60px 1fr 1fr 1fr;
+            }
+
+            .time-header:nth-child(n+5),
+            .time-slot:nth-child(n+5) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container nav-container">
+            <a href="index.html" class="logo">MedConnect</a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="find-doctor.html">Find a Doctor</a>
+                <a href="services.html">Services</a>
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <button class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container main-content">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="doctor-dashboard.html">Dashboard</a></li>
+                <li><a href="appointments.html">Appointments</a></li>
+                <li><a href="my-patients.html">My Patients</a></li>
+                <li><a href="schedule.html" class="active">Schedule</a></li>
+                <li><a href="messages.html">Messages</a></li>
+                <li><a href="medical-records.html">Medical Records</a></li>
+                <li><a href="profile-settings.html">Profile Settings</a></li>
+            </ul>
+            <a href="register-doctor.html" class="register-btn">Register New Doctor</a>
+        </div>
+
+        <!-- Schedule Content -->
+        <div class="content">
+            <div class="doctor-info">
+                <h1 class="page-title">My Schedule</h1>
+                <div class="doctor-avatar">DS</div>
+            </div>
+
+            <!-- Calendar Controls -->
+            <div class="calendar-controls">
+                <div class="date-nav">
+                    <button class="nav-btn" id="prevMonth">&#10094;</button>
+                    <div class="current-month" id="currentMonth">May 2025</div>
+                    <button class="nav-btn" id="nextMonth">&#10095;</button>
+                </div>
+                <div class="view-selector">
+                    <button class="view-btn active" data-view="monthly">Month</button>
+                    <button class="view-btn" data-view="weekly">Week</button>
+                </div>
+            </div>
+
+            <!-- Monthly Calendar View -->
+            <div class="calendar" id="monthlyView">
+                <div class="calendar-header">
+                    <div class="day">Sun</div>
+                    <div class="day">Mon</div>
+                    <div class="day">Tue</div>
+                    <div class="day">Wed</div>
+                    <div class="day">Thu</div>
+                    <div class="day">Fri</div>
+                    <div class="day">Sat</div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Calendar days will be generated dynamically by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Weekly View -->
+            <div class="weekly-view" id="weeklyView">
+                <div class="time-column">
+                    <div class="time-header"></div>
+                    <div class="time-header">Sun 11</div>
+                    <div class="time-header">Mon 12</div>
+                    <div class="time-header">Tue 13</div>
+                    <div class="time-header">Wed 14</div>
+                    <div class="time-header">Thu 15</div>
+                    <div class="time-header">Fri 16</div>
+                    <div class="time-header">Sat 17</div>
+                </div>
+                <!-- Time slots will be generated dynamically by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Appointment Button -->
+    <button class="add-appointment" id="addAppointmentBtn">+</button>
+
+    <!-- Add Appointment Modal -->
+    <div class="modal" id="appointmentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Appointment</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <form id="appointmentForm">
+                <div class="form-group">
+                    <label for="patientName">Patient Name</label>
+                    <input type="text" class="form-control" id="patientName" required>
+                </div>
+                <div class="form-group">
+                    <label for="appointmentDate">Date</label>
+                    <input type="date" class="form-control" id="appointmentDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="appointmentTime">Time</label>
+                    <input type="time" class="form-control" id="appointmentTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="appointmentPurpose">Purpose</label>
+                    <select class="form-control" id="appointmentPurpose" required>
+                        <option value="" disabled selected>Select purpose</option>
+                        <option value="Regular Checkup">Regular Checkup</option>
+                        <option value="Consultation">Consultation</option>
+                        <option value="Follow-up">Follow-up</option>
+                        <option value="Prescription Renewal">Prescription Renewal</option>
+                        <option value="Lab Results">Lab Results</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="appointmentNotes">Notes (Optional)</label>
+                    <textarea class="form-control" id="appointmentNotes" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelAppointment">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Appointment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Current date information
+        const currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        // DOM elements
+        const calendarGrid = document.getElementById('calendarGrid');
+        const weeklyView = document.getElementById('weeklyView');
+        const monthlyView = document.getElementById('monthlyView');
+        const currentMonthElement = document.getElementById('currentMonth');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+        const viewButtons = document.querySelectorAll('.view-btn');
+        const addAppointmentBtn = document.getElementById('addAppointmentBtn');
+        const appointmentModal = document.getElementById('appointmentModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const cancelAppointmentBtn = document.getElementById('cancelAppointment');
+        const appointmentForm = document.getElementById('appointmentForm');
+
+        // Sample appointment data (would come from backend in a real app)
+        const appointments = [
+            { id: 1, patientName: "John Smith", date: "2025-05-17", time: "09:00", purpose: "Regular Checkup" },
+            { id: 2, patientName: "Sarah Johnson", date: "2025-05-17", time: "10:30", purpose: "Consultation" },
+            { id: 3, patientName: "Michael Brown", date: "2025-05-17", time: "11:45", purpose: "Follow-up" },
+            { id: 4, patientName: "Emily Davis", date: "2025-05-17", time: "13:15", purpose: "Prescription Renewal" },
+            { id: 5, patientName: "David Wilson", date: "2025-05-20", time: "09:30", purpose: "Regular Checkup" },
+            { id: 6, patientName: "Jennifer Garcia", date: "2025-05-20", time: "11:00", purpose: "Lab Results" },
+            { id: 7, patientName: "Robert Martinez", date: "2025-05-22", time: "14:15", purpose: "Follow-up" },
+            { id: 8, patientName: "Lisa Anderson", date: "2025-05-22", time: "15:30", purpose: "Consultation" },
+            { id: 9, patientName: "James Taylor", date: "2025-05-24", time: "10:00", purpose: "Regular Checkup" },
+            { id: 10, patientName: "Patricia Thomas", date: "2025-05-24", time: "16:45", purpose: "Prescription Renewal" }
+        ];
+
+        // Generate the month name
+        function getMonthName(month) {
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            return months[month];
+        }
+
+        // Update the current month display
+        function updateCurrentMonth() {
+            currentMonthElement.textContent = `${getMonthName(currentMonth)} ${currentYear}`;
+        }
+
+        // Generate calendar days
+        function generateCalendar() {
+            calendarGrid.innerHTML = '';
+            
+            // Get first day of the month
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            
+            // Get last day of the month
+            const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+            
+            // Get last day of previous month
+            const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+            
+            // Add previous month's days
+            for (let i = firstDay - 1; i >= 0; i--) {
+                const day = document.createElement('div');
+                day.classList.add('calendar-day', 'other-month');
+                day.innerHTML = `<span class="day-number">${prevMonthLastDay - i}</span>`;
+                calendarGrid.appendChild(day);
+            }
+            
+            // Add current month's days
+            for (let i = 1; i <= lastDay; i++) {
+                const day = document.createElement('div');
+                day.classList.add('calendar-day');
+                
+                // Check if it's today
+                if (currentYear === currentDate.getFullYear() && currentMonth === currentDate.getMonth() && i === currentDate.getDate()) {
+                    day.classList.add('today');
+                }
+                
+                day.innerHTML = `<span class="day-number">${i}</span>`;
+                
+                // Add appointment data
+                const todayAppointments = appointments.filter(appointment => {
+                    const appointmentDate = new Date(appointment.date);
+                    return appointmentDate.getDate() === i && appointmentDate.getMonth() === currentMonth && appointmentDate.getFullYear() === currentYear;
+                });
+                
+                // Only show first two appointments and count
+                if (todayAppointments.length > 0) {
+                    for (let j = 0; j < Math.min(2, todayAppointments.length); j++) {
+                        const appointmentEl = document.createElement('div');
+                        appointmentEl.classList.add('appointment');
+                        appointmentEl.textContent = `${todayAppointments[j].time} - ${todayAppointments[j].patientName}`;
+                        day.appendChild(appointmentEl);
+                    }
+                    
+                    if (todayAppointments.length > 2) {
+                        const countEl = document.createElement('div');
+                        countEl.classList.add('appointment-count');
+                        countEl.textContent = `+${todayAppointments.length - 2} more`;
+                        day.appendChild(countEl);
+                    }
+                }
+                
+                calendarGrid.appendChild(day);
+            }
+            
+            // Add next month's days
+            const totalDays = firstDay + lastDay;
+            const remainingDays = 42 - totalDays; // 6 rows x 7 days
+            
+            for (let i = 1; i <= remainingDays; i++) {
+                const day = document.createElement('div');
+                day.classList.add('calendar-day', 'other-month');
+                day.innerHTML = `<span class="day-number">${i}</span>`;
+                calendarGrid.appendChild(day);
+            }
+        }
+
+        // Generate weekly view
+        function generateWeeklyView() {
+            weeklyView.innerHTML = '';
+            
+            // Add header row
+            const headerRow = document.createElement('div');
+            headerRow.classList.add('time-column');
+            
+            const emptyHeader = document.createElement('div');
+            emptyHeader.classList.add('time-header');
+            headerRow.appendChild(emptyHeader);
+            
+            // Get current week's days
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(today.getDate() - dayOfWeek);
+            
+            // Create day headers
+            for (let i = 0; i < 7; i++) {
+                const day = new Date(startOfWeek);
+                day.setDate(startOfWeek.getDate() + i);
+                
+                const dayHeader = document.createElement('div');
+                dayHeader.classList.add('time-header');
+                
+                const dayName = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][day.getDay()];
+                const dayNum = day.getDate();
+                
+                dayHeader.textContent = `${dayName} ${dayNum}`;
+                headerRow.appendChild(dayHeader);
+            }
+            
+            weeklyView.appendChild(headerRow);
+            
+            // Create time rows (8 AM to 6 PM)
+            for (let hour = 8; hour < 18; hour++) {
+                const timeRow = document.createElement('div');
+                timeRow.classList.add('time-row');
+                
+                // Time label
+                const timeLabel = document.createElement('div');
+                timeLabel.classList.add('time-label');
+                timeLabel.textContent = `${hour > 12 ? hour - 12 : hour}:00 ${hour >= 12 ? 'PM' : 'AM'}`;
+                timeRow.appendChild(timeLabel);
+                
+                // Time slots for each day
+                for (let i = 0; i < 7; i++) {
+                    const day = new Date(startOfWeek);
+                    day.setDate(startOfWeek.getDate() + i);
+                    
+                    const timeSlot = document.createElement('div');
+                    timeSlot.classList.add('time-slot');
+                    
+                    // Find appointments for this time slot
+                    const slotAppointments = appointments.filter(appointment => {
+                        const appointmentDate = new Date(appointment.date);
+                        const appointmentHour = parseInt(appointment.time.split(':')[0]);
+                        
+                        return appointmentDate.getDate() === day.getDate() && 
+                               appointmentDate.getMonth() === day.getMonth() && 
+                               appointmentDate.getFullYear() === day.getFullYear() &&
+                               appointmentHour === hour;
+                    });
+                    
+                    // Add appointments to the slot
+                    slotAppointments.forEach(appointment => {
+                        const appointmentEl = document.createElement('div');
+                        appointmentEl.classList.add('weekly-appointment');
+                        appointmentEl.textContent = `${appointment.time} - ${appointment.patientName}`;
+                        timeSlot.appendChild(appointmentEl);
+                    });
+                    
+                    timeRow.appendChild(timeSlot);
+                }
+                
+                weeklyView.appendChild(timeRow);
+            }
+        }
+
+        // Switch between monthly and weekly views
+        function switchView(view) {
+            if (view === 'monthly') {
+                monthlyView.style.display = 'block';
+                weeklyView.style.display = 'none';
+            } else {
+                monthlyView.style.display = 'none';
+                weeklyView.style.display = 'block';
+                generateWeeklyView();
+            }
+        }
+
+        // Initialize the calendar
