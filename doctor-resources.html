@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedConnect - Doctor Resources</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            color: #1e88e5;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin-left: 25px;
+        }
+        
+        .nav-menu a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-menu a:hover {
+            color: #1e88e5;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .login-btn {
+            margin-right: 15px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .signup-btn {
+            background-color: #1e88e5;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .signup-btn:hover {
+            background-color: #1565c0;
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background-color: #1e88e5;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+        
+        /* Resources Grid */
+        .resources-section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        
+        .resource-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .resource-img {
+            height: 180px;
+            background-color: #e1f5fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            color: #1e88e5;
+        }
+        
+        .resource-content {
+            padding: 20px;
+        }
+        
+        .resource-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .resource-desc {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .resource-link {
+            display: inline-block;
+            color: #1e88e5;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Latest Updates */
+        .updates-section {
+            background-color: #f1f8fe;
+            padding: 60px 0;
+        }
+        
+        .updates-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .update-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .update-date {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .update-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .update-desc {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        /* Community Section */
+        .community-section {
+            padding: 60px 0;
+        }
+        
+        .community-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .community-text {
+            flex: 1;
+            padding-right: 40px;
+        }
+        
+        .community-text h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .community-text p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .community-btn {
+            display: inline-block;
+            background-color: #1e88e5;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .community-btn:hover {
+            background-color: #1565c0;
+        }
+        
+        .community-image {
+            flex: 1;
+            background-color: #e1f5fe;
+            height: 300px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #1e88e5;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #fff;
+            border-top: 1px solid #eee;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-title {
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #1e88e5;
+        }
+        
+        .social-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .social-links li {
+            margin-right: 15px;
+        }
+        
+        .social-links a {
+            color: #1e88e5;
+            font-size: 18px;
+        }
+        
+        .copyright {
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .resources-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .community-content {
+                flex-direction: column;
+            }
+            
+            .community-text {
+                padding-right: 0;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-menu, .auth-buttons {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .resources-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container header-content">
+            <a href="index.html" class="logo">MedConnect</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="find-doctor.html">Find a Doctor</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Login</a>
+                <a href="signup.html" class="signup-btn">Sign Up</a>
+            </div>
+            <div class="mobile-menu">☰</div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Doctor Resources Center</h1>
+            <p>Access essential tools, clinical resources, and professional development materials to enhance your practice and provide better patient care.</p>
+        </div>
+    </section>
+
+    <!-- Resources Grid Section -->
+    <section class="resources-section">
+        <div class="container">
+            <h2 class="section-title">Clinical Resources</h2>
+            <div class="resources-grid">
+                <!-- Resource Card 1 -->
+                <div class="resource-card">
+                    <div class="resource-img">📊</div>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Clinical Guidelines</h3>
+                        <p class="resource-desc">Access the latest evidence-based clinical guidelines for diagnosing and treating various medical conditions.</p>
+                        <a href="#" class="resource-link">View Guidelines</a>
+                    </div>
+                </div>
+                
+                <!-- Resource Card 2 -->
+                <div class="resource-card">
+                    <div class="resource-img">💊</div>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Drug Reference</h3>
+                        <p class="resource-desc">Comprehensive medication database with dosing information, interactions, contraindications, and more.</p>
+                        <a href="#" class="resource-link">Access Database</a>
+                    </div>
+                </div>
+                
+                <!-- Resource Card 3 -->
+                <div class="resource-card">
+                    <div class="resource-img">🧠</div>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Clinical Calculators</h3>
+                        <p class="resource-desc">Tools for calculating medical scores, risk assessments, and dosage recommendations for patient care.</p>
+                        <a href="#" class="resource-link">Use Calculators</a>
+                    </div>
+                </div>
+                
+                <!-- Resource Card 4 -->
+                <div class="resource-card">
+                    <div class="resource-img">📚</div>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Medical Journals</h3>
+                        <p class="resource-desc">Access to latest research papers, journal articles and medical studies to stay updated.</p>
+                        <a href="#" class="resource-link">Browse Journals</a>
+                    </div>
+                </div>
+                
+                <!-- Resource Card 5 -->
+                <div class="resource-card">
+                    <div class="resource-img">📱</div>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Telehealth Tools</h3>
+                        <p class="resource-desc">Resources and guides for conducting effective virtual consultations with your patients.</p>
+                        <a href="#" class="resource-link">Explore Tools</a>
+                    </div>
+                </div>
+                
+                <!-- Resource Card 6 -->
+                <div class="resource-card">
+                    <div class="resource-img">📄</div>
+                    <div class="resource-content">
+                        <h3 class="resource-title">Patient Education Materials</h3>
+                        <p class="resource-desc">Downloadable handouts and resources to share with your patients about various health topics.</p>
+                        <a href="#" class="resource-link">View Materials</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Updates Section -->
+    <section class="updates-section">
+        <div class="container">
+            <h2 class="section-title">Latest Medical Updates</h2>
+            <div class="updates-list">
+                <!-- Update Item 1 -->
+                <div class="update-item">
+                    <p class="update-date">May 15, 2025</p>
+                    <h3 class="update-title">New Hypertension Treatment Guidelines Released</h3>
+                    <p class="update-desc">The American Heart Association has released updated guidelines for the treatment of hypertension, including new recommendations for first-line therapies and blood pressure targets.</p>
+                </div>
+                
+                <!-- Update Item 2 -->
+                <div class="update-item">
+                    <p class="update-date">May 10, 2025</p>
+                    <h3 class="update-title">COVID-19 Booster Recommendations Updated</h3>
+                    <p class="update-desc">The CDC has updated its recommendations for COVID-19 booster vaccines. Learn about the latest guidance for your patients.</p>
+                </div>
+                
+                <!-- Update Item 3 -->
+                <div class="update-item">
+                    <p class="update-date">May 5, 2025</p>
+                    <h3 class="update-title">Upcoming Webinar: Advances in Diabetes Management</h3>
+                    <p class="update-desc">Join leading endocrinologists on May 25th for a comprehensive webinar on the latest approaches to diabetes management, including new medications and monitoring technologies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="community-section">
+        <div class="container">
+            <div class="community-content">
+                <div class="community-text">
+                    <h2>Join Our Physician Community</h2>
+                    <p>Connect with fellow healthcare professionals, share knowledge, discuss challenging cases, and stay informed about the latest medical advances. Our physician community provides a secure platform for professional collaboration.</p>
+                    <a href="#" class="community-btn">Join Community</a>
+                </div>
+                <div class="community-image">
+                    👨‍⚕️👩‍⚕️
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3 class="footer-title">MedConnect</h3>
+                    <p>Your comprehensive healthcare platform connecting patients with medical professionals.</p>
+                    <ul class="social-links">
+                        <li><a href="#">f</a></li>
+                        <li><a href="#">t</a></li>
+                        <li><a href="#">ig</a></li>
+                        <li><a href="#">in</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="find-doctor.html">Find a Doctor</a></li>
+                        <li><a href="services.html">Our Services</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">For Patients</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Book Appointment</a></li>
+                        <li><a href="#">Patient Dashboard</a></li>
+                        <li><a href="#">Medical Records</a></li>
+                        <li><a href="#">Prescriptions</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3 class="footer-title">For Doctors</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Doctor Dashboard</a></li>
+                        <li><a href="#">Patient Management</a></li>
+                        <li><a href="#">Appointment Schedule</a></li>
+                        <li><a href="doctor-resources.html">Resources</a></li>
+                        <li><a href="#">Join as Doctor</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 MedConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.querySelector('.mobile-menu');
+            const navMenu = document.querySelector('.nav-menu');
+            const authButtons = document.querySelector('.auth-buttons');
+            
+            let menuOpen = false;
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                if (!menuOpen) {
+                    navMenu.style.display = 'flex';
+                    navMenu.style.flexDirection = 'column';
+                    navMenu.style.position = 'absolute';
+                    navMenu.style.top = '70px';
+                    navMenu.style.left = '0';
+                    navMenu.style.width = '100%';
+                    navMenu.style.backgroundColor = '#fff';
+                    navMenu.style.boxShadow = '0 5px 10px rgba(0, 0, 0, 0.1)';
+                    navMenu.style.padding = '20px 0';
+                    
+                    authButtons.style.display = 'flex';
+                    authButtons.style.flexDirection = 'column';
+                    authButtons.style.position = 'absolute';
+                    authButtons.style.top = navMenu.offsetHeight + 70 + 'px';
+                    authButtons.style.left = '0';
+                    authButtons.style.width = '100%';
+                    authButtons.style.backgroundColor = '#fff';
+                    authButtons.style.padding = '20px 0';
+                    authButtons.style.boxShadow = '0 5px 10px rgba(0, 0, 0, 0.1)';
+                    
+                    document.querySelectorAll('.nav-menu li').forEach(item => {
+                        item.style.margin = '10px 0';
+                        item.style.textAlign = 'center';
+                    });
+                    
+                    document.querySelector('.login-btn').style.margin = '0 0 15px 0';
+                    document.querySelector('.signup-btn').style.width = '200px';
+                    document.querySelector('.login-btn').style.textAlign = 'center';
+                    document.querySelector('.signup-btn').style.textAlign = 'center';
+                    document.querySelector('.auth-buttons').style.alignItems = 'center';
+                    
+                    menuOpen = true;
+                } else {
+                    navMenu.style.display = '';
+                    authButtons.style.display = '';
+                    menuOpen = false;
+                }
+            });
+            
+            // Close mobile menu when window is resized
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768 && menuOpen) {
+                    navMenu.style.display = '';
+                    authButtons.style.display = '';
+                    menuOpen = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
